@@ -21,6 +21,12 @@ Exclusively showcases verified hands-on engineering labs with high-resolution sc
    - Standard Access Control List (`access-list 1 permit 10.0.0.0 0.0.0.255`) overload.
    - Live ICMP simulation validating bidirectional communication with public server (`200.0.0.2`).
 
+3. **NetScope PRO: Network Engineering & Subnet Architecture Calculator**
+   - Interactive IPv4 & IPv6 CIDR subnet calculator with bitwise binary mask translation.
+   - RFC 1878 / RFC 4291 classification, classful architecture matching (Class A/B/C), and VLSM subdivision trees.
+   - Automatic calculation of Subnet ID, Broadcast address, usable host ranges, and wildcard masks.
+   - Built-in presets for Enterprise AWS VPC CIDR blocks, RFC 1918 private subnets, Carrier NAT, and P2P links with PDF/CSV export.
+
 ### 🐧 Linux Projects (RHEL 9 & Enterprise Linux)
 3. **RHEL 9 Real-Time Kernel Process & Resource Telemetry (`top`)**
    - Live system load and CPU distribution auditing (98.7% idle headroom, 346 total tasks).

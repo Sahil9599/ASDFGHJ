@@ -133,6 +133,23 @@ export default function App() {
       tech: ['Cisco IOS NAT', 'PAT Overload', 'Standard ACL', 'FastEthernet', 'Public WAN Server'],
     },
     {
+      id: 'netscope-subnet-calculator',
+      category: 'ccna',
+      badge: 'NETSCOPE PRO // CCNA TOOL',
+      title: 'NetScope PRO: Network Engineering & Subnet Architecture Calculator',
+      subtitle: 'Visual Subnetting Breakdown, VLSM Trees, RFC 1878/4291 & Bitwise Engine',
+      image: '/images/netscope-subnet-calculator.png',
+      desc: 'Architected and developed NetScope PRO, an advanced diagnostic suite for network engineers and CCNA practitioners. Features an interactive IPv4 & IPv6 CIDR subnet calculator, real-time bitwise mask computation, classful architecture matching (Class A/B/C), VLSM subdivision tree generation, and usable host range mapping (calculating Network ID, Broadcast, Usable Range, and Wildcard Masks). Includes instant presets for RFC 1918 private subnets, AWS VPC CIDR blocks, Carrier NAT, and P2P links with PDF/CSV export.',
+      highlights: [
+        'Real-time CIDR / VLSM calculation from /0 up to /32 with dynamic prefix sliders and bitwise translation',
+        'Automated RFC 1878 / RFC 4291 classification with network block capacity & usable host computation (254 hosts on /24)',
+        'Full address decomposition: Subnet ID (192.168.1.0), Broadcast (192.168.1.255), Usable host range (192.168.1.1 - 192.168.1.254), and Wildcard mask (0.0.0.255)',
+        'Quick architecture presets for Enterprise AWS VPC tiers, RFC 1918 Class A/B/C, Carrier NAT, and Point-to-Point links',
+      ],
+      metrics: ['Instant CIDR Math', 'RFC 1878 / 4291', 'VLSM Subdivisions'],
+      tech: ['React', 'TypeScript', 'IPv4 & IPv6 CIDR', 'VLSM Algorithms', 'Bitwise Subnetting', 'RFC 1918'],
+    },
+    {
       id: 'linux-rhel9-top-monitor',
       category: 'linux',
       badge: 'RHEL 9 LAB',
@@ -377,7 +394,7 @@ export default function App() {
             <div className="inline-flex items-center gap-1.5 p-1 rounded-lg border border-white/15 bg-[#0a0a0f]">
               {[
                 { id: 'all', label: `ALL (${projects.length})` },
-                { id: 'ccna', label: 'CCNA LABS (2)' },
+                { id: 'ccna', label: 'CCNA & TOOLS (3)' },
                 { id: 'linux', label: 'LINUX LABS (3)' },
               ].map(tab => (
                 <button
