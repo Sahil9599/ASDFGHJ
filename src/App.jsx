@@ -195,7 +195,7 @@ export default function App() {
     setTerminalInput('');
   };
 
-  // Projects strictly divided into CCNA Projects and Linux Projects with Sahil's verified hands-on work
+  // Only verified hands-on projects with genuine screenshots
   const projects = [
     // CCNA HANDS-ON PROJECTS (WITH EXACT USER SCREENSHOTS & TOPOLOGIES)
     {
@@ -234,40 +234,8 @@ export default function App() {
       tech: ['Cisco IOS NAT', 'PAT Overload', 'Standard ACL', 'FastEthernet', 'Public WAN Server'],
       year: 'CCNA LABS',
     },
-    {
-      id: 'ccna-ipsec-vpn',
-      category: 'ccna',
-      badge: 'CCNA CRYPTO',
-      title: 'Site-to-Site Cryptographic IPsec VPN Tunnel',
-      subtitle: 'Encrypted Multi-Branch WAN with IKEv2 & Cisco ASA',
-      desc: 'Engineered an enterprise-grade site-to-site IPsec tunnel connecting corporate headquarters to regional branches. Implemented IKEv2 key exchange, AES-256-GCM encryption, SHA-512 data integrity, and strict Access Control Lists (ACLs) to stop unauthorized packet traversal.',
-      highlights: [
-        'Configured Crypto ISAKMP / IKEv2 policy with 256-bit AES encryption and Diffie-Hellman Group 14',
-        'Extended ACLs defining interesting traffic between headquarters and remote branch subnets',
-        'Verified stateful packet inspection on Cisco ASA perimeter firewall',
-      ],
-      metrics: ['AES-256-GCM', 'IKEv2 Protected', 'Zero Leakage'],
-      tech: ['Cisco ASA', 'IPsec / IKEv2', 'Crypto Maps', 'Extended ACLs', 'GRE Tunneling'],
-      year: 'CCNA SECURITY',
-    },
-    {
-      id: 'ccna-zero-trust-segmentation',
-      category: 'ccna',
-      badge: 'CCNA SEGMENTATION',
-      title: 'Zero-Trust Network Micro-Segmentation & ACL Matrix',
-      subtitle: 'Layer-2/3 Isolation, Private VLANs & Port Defense',
-      desc: 'Implemented zero-trust micro-segmentation across corporate subnets to stop lateral movement of malware and unauthorized access. Enforced Private VLANs (Community & Isolated), Port Security MAC lockdown, and Cisco TACACS+/RADIUS AAA server integration.',
-      highlights: [
-        'Private VLANs configured with isolated ports for untrusted workstations',
-        'Switchport port-security violation restrict and mac-address sticky enabled',
-        'BPDU Guard and Root Guard enabled to prevent rogue STP switch takeovers',
-      ],
-      metrics: ['100% Lateral Block', 'PVLAN Isolated', 'AAA Logging'],
-      tech: ['Private VLANs', 'Port Security', 'TACACS+ / RADIUS', 'Time-Based ACLs', 'BPDU Guard'],
-      year: 'CCNA DEFENSE',
-    },
 
-    // LINUX PROJECTS (WITH SAHIL'S HARDENED LINUX TERMINAL SCREENSHOT & AUDITS)
+    // LINUX PROJECTS (WITH SAHIL'S HARDENED LINUX TERMINAL SCREENSHOTS & AUDITS)
     {
       id: 'linux-rhel9-top-monitor',
       category: 'linux',
@@ -321,54 +289,6 @@ export default function App() {
       metrics: ['3.05ms PTT Latency', 'Zero Rogue Ports', 'IPv4/IPv6 Dual-Stack'],
       tech: ['RHEL / CentOS', 'iproute2 (ip addr, ip route)', 'ss -tuln Socket Audit', 'DNS Resolution', 'ICMP Diagnostics'],
       year: 'LINUX AUDIT',
-    },
-    {
-      id: 'linux-cis-hardening',
-      category: 'linux',
-      badge: 'LINUX DEFENSE',
-      title: 'Automated Linux Enterprise Server Hardening Engine',
-      subtitle: 'CIS Benchmark Level 2 Compliance & Kernel Lockdown',
-      desc: 'Developed an automated Bash and Ansible hardening toolchain enforcing CIS Benchmark Level 2 across Ubuntu and RHEL systems. Enforced strict sysctl kernel parameter tuning, AppArmor/SELinux mandatory access controls, PAM password policies, and disabled dangerous kernel modules.',
-      highlights: [
-        'sysctl tuning: net.ipv4.conf.all.rp_filter=1, net.ipv4.ip_forward=0, fs.protected_hardlinks=1',
-        'SELinux enforced in Enforcing mode with targeted policy modules',
-        'SSH hardened: Port 2222, PermitRootLogin no, PasswordAuthentication no, Ed25519 keys only',
-      ],
-      metrics: ['CIS Level 2 Compliant', '500+ Nodes Hardened', 'Zero-Password SSH'],
-      tech: ['Bash / Shell', 'SELinux & AppArmor', 'sysctl Kernel Tuning', 'Ansible', 'PAM Security'],
-      year: 'LINUX HARDENING',
-    },
-    {
-      id: 'linux-suricata-ids',
-      category: 'linux',
-      badge: 'LINUX SENTINEL',
-      title: 'Distributed Linux IDS/IPS Threat Hunter (Suricata & Snort)',
-      subtitle: 'Real-Time Packet Flow Inspection & nftables Active Ban',
-      desc: 'Constructed an open-source real-time Intrusion Detection and Prevention cluster on hardened Linux nodes using Suricata and Snort. Automated dynamic firewall blacklisting via nftables and fail2ban upon detecting port scans, brute-force attempts, or suspicious payload signatures.',
-      highlights: [
-        'Suricata configured in AF_PACKET inline IPS mode for wire-speed packet inspection',
-        'Custom rulesets detecting Nmap stealth SYN scans and SSH brute force dictionaries',
-        'Real-time automated iptables/nftables IP blacklisting triggering within 200ms of alert',
-      ],
-      metrics: ['Real-Time Pkts/sec', 'nftables Auto-Drop', 'ELK Telemetry'],
-      tech: ['Suricata IDS', 'Snort', 'nftables / iptables', 'fail2ban', 'Wireshark / TShark'],
-      year: 'LINUX SECURITY',
-    },
-    {
-      id: 'linux-waf-proxy',
-      category: 'linux',
-      badge: 'LINUX GATEWAY',
-      title: 'Zero-Trust Linux Reverse Proxy & WAF Bastion',
-      subtitle: 'Hardened Nginx with ModSecurity OWASP Core Rule Set',
-      desc: 'Deployed a battle-hardened Linux reverse proxy gateway equipped with Nginx and ModSecurity Web Application Firewall. Mitigates SQLi, XSS, and remote code execution vulnerabilities, paired with automated Let’s Encrypt TLS rotation and WireGuard bastion administration.',
-      highlights: [
-        'OWASP ModSecurity Core Rule Set (CRS 3.3) running with zero false positives on production endpoints',
-        'Strict TLS 1.3 only with ChaCha20-Poly1305 and AES-256-GCM cipher suites and HSTS preload',
-        'Admin dashboard accessible strictly over isolated WireGuard peer-to-peer cryptographic tunnel',
-      ],
-      metrics: ['OWASP Top 10 Protected', 'TLS 1.3 Strict', 'WireGuard Bastion'],
-      tech: ['Nginx', 'ModSecurity WAF', 'WireGuard VPN', 'OpenSSL', 'Certbot'],
-      year: 'LINUX GATEWAY',
     },
   ];
 
