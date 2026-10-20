@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ChromeCanvas from './components/ChromeCanvas';
 import confetti from 'canvas-confetti';
 import { 
   ArrowUpRight, 
@@ -214,69 +213,55 @@ export default function App() {
         </div>
       </nav>
 
-      {/* 2. Hero Section - Clean, Organized & Zero Lag */}
-      <section className="pt-32 pb-20 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      {/* 2. Hero Section - Clean, High Impact & Completely Lag-Free */}
+      <section className="pt-36 pb-24 border-b border-white/10">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
           
-          {/* Left Text */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              CCNA Certified &bull; Linux Systems &bull; Network Defense
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-syne font-black tracking-tight uppercase leading-[0.95] text-white">
-              SAHIL<br />
-              <span className="chrome-text">SECURITY</span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-xl">
-              Cyber Security Specialist with hands-on expertise in Cisco enterprise routing topologies (CCNA) and Red Hat Enterprise Linux (RHEL 9) kernel defense and diagnostic auditing.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="px-6 py-3 rounded-full font-mono text-xs uppercase tracking-widest bg-white text-black font-bold hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
-              >
-                View Hands-On Projects
-                <ArrowUpRight size={14} />
-              </button>
-
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="px-6 py-3 rounded-full font-mono text-xs uppercase tracking-widest border border-white/20 hover:border-white bg-white/5 text-zinc-300 hover:text-white transition-all cursor-pointer"
-              >
-                Contact Sahil
-              </button>
-            </div>
-
-            {/* Clean Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10 max-w-md">
-              <div>
-                <div className="text-2xl font-syne font-bold text-white">CCNA</div>
-                <div className="text-[11px] font-mono text-zinc-400 uppercase mt-0.5">Cisco Routing</div>
-              </div>
-              <div>
-                <div className="text-2xl font-syne font-bold text-white">RHEL 9</div>
-                <div className="text-[11px] font-mono text-zinc-400 uppercase mt-0.5">Linux Kernel</div>
-              </div>
-              <div>
-                <div className="text-2xl font-syne font-bold text-white">100%</div>
-                <div className="text-[11px] font-mono text-zinc-400 uppercase mt-0.5">Verified Labs</div>
-              </div>
-            </div>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            CCNA Certified &bull; Linux Systems &bull; Network Defense
           </div>
 
-          {/* Right Single 3D Chrome Canvas - Super Smooth & Pauses when off-screen */}
-          <div className="lg:col-span-5 h-[380px] sm:h-[440px] w-full rounded-2xl border border-white/10 bg-[#08080c] relative flex items-center justify-center overflow-hidden">
-            <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
-              <span className="text-[10px] font-mono tracking-widest uppercase text-zinc-400">
-                REAL-TIME 3D SHIELD // INTERACTIVE
-              </span>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-syne font-black tracking-tight uppercase leading-[0.9] text-white">
+            SAHIL<br />
+            <span className="chrome-text">SECURITY</span>
+          </h1>
+
+          <p className="text-base sm:text-xl text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto">
+            Cyber Security Specialist with verified hands-on expertise in Cisco enterprise routing topologies (CCNA) and Red Hat Enterprise Linux (RHEL 9) kernel defense and diagnostic auditing.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest bg-white text-black font-bold hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+            >
+              View Hands-On Projects
+              <ArrowUpRight size={14} />
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest border border-white/20 hover:border-white bg-white/5 text-zinc-300 hover:text-white transition-all cursor-pointer"
+            >
+              Contact Sahil
+            </button>
+          </div>
+
+          {/* Clean Stats */}
+          <div className="grid grid-cols-3 gap-6 pt-10 border-t border-white/10 max-w-xl mx-auto">
+            <div>
+              <div className="text-3xl font-syne font-bold text-white">CCNA</div>
+              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Cisco Routing</div>
             </div>
-            <ChromeCanvas className="w-full h-full" />
+            <div>
+              <div className="text-3xl font-syne font-bold text-white">RHEL 9</div>
+              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Linux Kernel</div>
+            </div>
+            <div>
+              <div className="text-3xl font-syne font-bold text-white">100%</div>
+              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Verified Labs</div>
+            </div>
           </div>
 
         </div>
