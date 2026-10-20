@@ -69,7 +69,12 @@ npm run build
 
 ---
 
-## 👤 Author
+## 👤 Author & Contact
 **Sahil**  
-*Cyber Security Specialist &bull; Network &bull; Linux Defense*  
-Email: [sahil.cybersec@gmail.com](mailto:sahil.cybersec@gmail.com)
+*Cyber Security Specialist &bull; Cisco CCNA &bull; Linux Systems Defense*  
+
+- 📧 **Email**: [sahilkumar202232@gmail.com](mailto:sahilkumar202232@gmail.com)
+- 📱 **Mobile**: [+91 7042131215](tel:+917042131215)
+- 💬 **WhatsApp**: [Chat on WhatsApp (+91 7042131215)](https://wa.me/917042131215)
+- 💼 **LinkedIn**: [linkedin.com/in/sahil-0b0172445](https://www.linkedin.com/in/sahil-0b0172445)
+- 🐙 **GitHub**: [github.com/Sahil9599](https://github.com/Sahil9599)

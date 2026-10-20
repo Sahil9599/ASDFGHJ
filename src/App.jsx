@@ -5,6 +5,7 @@ import {
   ArrowUp,
   ShieldCheck, 
   Mail, 
+  Phone,
   Copy, 
   Check, 
   ChevronRight,
@@ -30,9 +31,17 @@ const LinkedinIcon = ({ size = 18 }) => (
   </svg>
 );
 
+const WhatsAppIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path>
+    <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path>
+  </svg>
+);
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('all');
-  const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -55,9 +64,15 @@ export default function App() {
   }, []);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('sahil.cybersec@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    navigator.clipboard.writeText('sahilkumar202232@gmail.com');
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const copyPhone = () => {
+    navigator.clipboard.writeText('7042131215');
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2500);
   };
 
   const handleContactSubmit = (e) => {
@@ -544,46 +559,119 @@ export default function App() {
               </p>
             </div>
 
-            {/* Direct Email Copy Box */}
-            <div className="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between gap-4 max-w-md mx-auto">
-              <div className="font-mono text-sm text-white select-all">
-                sahil.cybersec@gmail.com
+            {/* Direct Contact Options: Email & Phone / WhatsApp */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              
+              {/* Email Card */}
+              <div className="p-4 rounded-xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
+                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-400">
+                  <Mail size={14} className="text-white" />
+                  <span>Email Transmission</span>
+                </div>
+                <div className="font-mono text-sm text-white select-all break-all">
+                  sahilkumar202232@gmail.com
+                </div>
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    onClick={copyEmail}
+                    className="flex-1 py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                    <span>{copiedEmail ? 'COPIED' : 'COPY EMAIL'}</span>
+                  </button>
+                  <a
+                    href="mailto:sahilkumar202232@gmail.com"
+                    className="py-1.5 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
+                    title="Send Email"
+                  >
+                    <ExternalLink size={13} />
+                  </a>
+                </div>
               </div>
-              <button
-                onClick={copyEmail}
-                className="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center gap-1.5 transition-colors cursor-pointer"
-              >
-                {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                <span>{copied ? 'COPIED' : 'COPY'}</span>
-              </button>
+
+              {/* Phone & WhatsApp Card */}
+              <div className="p-4 rounded-xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-zinc-400">
+                  <div className="flex items-center gap-2">
+                    <Phone size={14} className="text-emerald-400" />
+                    <span>Phone &bull; WhatsApp</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-400 font-semibold">ACTIVE</span>
+                </div>
+                <div className="font-mono text-sm text-white select-all">
+                  +91 7042131215
+                </div>
+                <div className="flex items-center gap-2 pt-1">
+                  <a
+                    href="https://wa.me/917042131215"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-1.5 px-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-mono text-emerald-400 flex items-center justify-center gap-1.5 transition-colors cursor-pointer font-medium"
+                  >
+                    <WhatsAppIcon size={14} />
+                    <span>WHATSAPP</span>
+                  </a>
+                  <a
+                    href="tel:+917042131215"
+                    className="py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                    title="Call directly"
+                  >
+                    <Phone size={13} />
+                  </a>
+                  <button
+                    onClick={copyPhone}
+                    className="py-1.5 px-2.5 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
+                    title="Copy number"
+                  >
+                    {copiedPhone ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                  </button>
+                </div>
+              </div>
+
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center justify-center gap-4">
+            {/* Social & Direct Comms Bar */}
+            <div className="flex items-center justify-center gap-3 pt-2">
+              <a
+                href="https://www.linkedin.com/in/sahil-0b0172445"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
+                title="LinkedIn Profile"
+              >
+                <LinkedinIcon size={16} />
+                <span>LinkedIn</span>
+              </a>
+
               <a
                 href="https://github.com/Sahil9599"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white transition-all cursor-pointer"
-                title="GitHub"
+                className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
+                title="GitHub Profile"
               >
-                <GithubIcon size={18} />
+                <GithubIcon size={16} />
+                <span>GitHub</span>
               </a>
+
               <a
-                href="https://linkedin.com"
+                href="https://wa.me/917042131215"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white transition-all cursor-pointer"
-                title="LinkedIn"
+                className="px-4 py-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-500/50 flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer"
+                title="Chat on WhatsApp"
               >
-                <LinkedinIcon size={18} />
+                <WhatsAppIcon size={16} />
+                <span>WhatsApp</span>
               </a>
+
               <a
-                href="mailto:sahil.cybersec@gmail.com"
-                className="w-11 h-11 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white transition-all cursor-pointer"
-                title="Email"
+                href="tel:+917042131215"
+                className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
+                title="Call 7042131215"
               >
-                <Mail size={18} />
+                <Phone size={16} />
+                <span>Call</span>
               </a>
             </div>
 
