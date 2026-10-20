@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import MatrixRain from './components/MatrixRain';
 import { 
   ArrowUpRight, 
   ArrowUp,
@@ -40,6 +41,7 @@ const WhatsAppIcon = ({ size = 18 }) => (
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('all');
+  const [matrixEnabled, setMatrixEnabled] = useState(true);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -188,8 +190,11 @@ export default function App() {
     : projects.filter(p => p.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#050507] text-[#e0e0e0] font-sans selection:bg-white selection:text-black">
+    <div className="relative min-h-screen bg-[#050507] text-[#e0e0e0] font-sans selection:bg-white selection:text-black">
       
+      {/* Cyber Security Matrix Rain Background Effect */}
+      {matrixEnabled && <MatrixRain opacity={0.16} />}
+
       {/* 1. Clean Navigation Bar */}
       <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-[#07070a]/95">
         <div className="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between">
@@ -219,12 +224,23 @@ export default function App() {
             </button>
           </div>
 
-          <button
-            onClick={() => scrollToSection('contact')}
-            className="px-5 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-white text-black font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-md"
-          >
-            Get In Touch
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMatrixEnabled(!matrixEnabled)}
+              title={matrixEnabled ? 'Turn off Matrix Effect' : 'Turn on Matrix Effect'}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-mono transition-all cursor-pointer"
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${matrixEnabled ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-500'}`} />
+              <span>{matrixEnabled ? 'MATRIX: ON' : 'MATRIX: OFF'}</span>
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="px-5 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-white text-black font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-md"
+            >
+              Get In Touch
+            </button>
+          </div>
         </div>
       </nav>
 
