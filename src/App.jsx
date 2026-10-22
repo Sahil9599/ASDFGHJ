@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import confetti from 'canvas-confetti';
 import MatrixRain from './components/MatrixRain';
 import ChromeCanvas from './components/ChromeCanvas';
 import SubnetCalculator from './components/SubnetCalculator';
@@ -57,7 +56,6 @@ export default function App() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [active3DShape, setActive3DShape] = useState('knot');
@@ -104,20 +102,6 @@ export default function App() {
     navigator.clipboard.writeText('7042131215');
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2500);
-  };
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    playClickSound();
-    sound.playChime();
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.7 },
-      colors: ['#10b981', '#38bdf8', '#ffffff'],
-    });
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 6000);
   };
 
   const scrollToSection = (id) => {
@@ -972,47 +956,6 @@ export default function App() {
                 <span>Chat on WhatsApp</span>
               </a>
             </div>
-
-            {/* Direct Form */}
-            {formSubmitted ? (
-              <div className="text-center py-8 space-y-2 border-t border-white/10 pt-8">
-                <Check size={32} className="text-emerald-400 mx-auto" />
-                <h4 className="font-syne font-bold uppercase text-white text-lg">Message Dispatched Successfully</h4>
-                <p className="text-xs font-mono text-zinc-400">Thank you! Sahil will acknowledge and respond to your email shortly.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleContactSubmit} className="space-y-4 pt-4 border-t border-white/10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input
-                    required
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 transition-colors"
-                  />
-                  <input
-                    required
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 transition-colors"
-                  />
-                </div>
-
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="Your message, project scope, or opportunity details..."
-                  className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 resize-none transition-colors"
-                />
-
-                <button
-                  type="submit"
-                  onMouseEnter={playHoverSound}
-                  className="w-full py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-bold hover:bg-emerald-400 transition-all cursor-pointer shadow-xl hover:shadow-emerald-500/20"
-                >
-                  Send Transmission
-                </button>
-              </form>
-            )}
 
           </div>
         </div>
