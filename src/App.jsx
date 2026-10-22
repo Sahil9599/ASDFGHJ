@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import MatrixRain from './components/MatrixRain';
+import ChromeCanvas from './components/ChromeCanvas';
+import SubnetCalculator from './components/SubnetCalculator';
+import CyberTerminal from './components/CyberTerminal';
+import { sound } from './utils/sound';
 import { 
   ArrowUpRight, 
   ArrowUp,
@@ -15,7 +19,15 @@ import {
   Network,
   Lock,
   X,
-  ZoomIn
+  ZoomIn,
+  Terminal,
+  Volume2,
+  VolumeX,
+  Activity,
+  Cpu,
+  Layers,
+  Sparkles,
+  Sliders
 } from 'lucide-react';
 
 const GithubIcon = ({ size = 18 }) => (
@@ -42,11 +54,13 @@ const WhatsAppIcon = ({ size = 18 }) => (
 export default function App() {
   const [activeTab, setActiveTab] = useState('all');
   const [matrixEnabled, setMatrixEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [active3DShape, setActive3DShape] = useState('knot');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,13 +79,28 @@ export default function App() {
     };
   }, []);
 
+  const toggleSound = () => {
+    const newState = sound.toggle();
+    setSoundEnabled(newState);
+  };
+
+  const playHoverSound = () => {
+    sound.playHover();
+  };
+
+  const playClickSound = () => {
+    sound.playClick();
+  };
+
   const copyEmail = () => {
+    playClickSound();
     navigator.clipboard.writeText('sahilkumar202232@gmail.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
   const copyPhone = () => {
+    playClickSound();
     navigator.clipboard.writeText('7042131215');
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2500);
@@ -79,24 +108,27 @@ export default function App() {
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
+    playClickSound();
+    sound.playChime();
     confetti({
-      particleCount: 60,
-      spread: 60,
+      particleCount: 80,
+      spread: 70,
       origin: { y: 0.7 },
-      colors: ['#ffffff', '#a1a1aa', '#71717a'],
+      colors: ['#10b981', '#38bdf8', '#ffffff'],
     });
     setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 5000);
+    setTimeout(() => setFormSubmitted(false), 6000);
   };
 
   const scrollToSection = (id) => {
+    playClickSound();
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // Only the 5 verified projects with real screenshots
+  // 6 Verified hands-on engineering lab projects with real screenshots
   const projects = [
     {
       id: 'ccna-inter-vlan-dot1q',
@@ -134,7 +166,7 @@ export default function App() {
     },
     {
       id: 'netscope-subnet-calculator',
-      category: 'ccna',
+      category: 'tools',
       badge: 'NETSCOPE PRO // CCNA TOOL',
       title: 'NetScope PRO: Network Engineering & Subnet Architecture Calculator',
       subtitle: 'Visual Subnetting Breakdown, VLSM Trees, RFC 1878/4291 & Bitwise Engine',
@@ -207,53 +239,117 @@ export default function App() {
     : projects.filter(p => p.category === activeTab);
 
   return (
-    <div className="relative min-h-screen bg-[#050507] text-[#e0e0e0] font-sans selection:bg-white selection:text-black">
+    <div className="relative min-h-screen bg-[#050508] text-[#e0e0e0] font-sans selection:bg-emerald-400 selection:text-black">
       
       {/* Cyber Security Matrix Rain Background Effect */}
-      {matrixEnabled && <MatrixRain opacity={0.16} />}
+      {matrixEnabled && <MatrixRain opacity={0.14} />}
 
-      {/* 1. Clean Navigation Bar */}
-      <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-[#07070a]/95">
-        <div className="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg border border-white/20 bg-white/5 flex items-center justify-center font-mono font-bold text-xs text-white">
+      {/* Cyber Ambient Glow Mesh in Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[130px]" />
+        <div className="absolute top-[35%] right-[-10%] w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[150px]" />
+        <div className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[140px]" />
+      </div>
+
+      {/* 1. Futuristic Navigation Bar */}
+      <nav className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-[#07070c]/85 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
+          
+          {/* Logo Monogram */}
+          <a 
+            href="#" 
+            onMouseEnter={playHoverSound}
+            onClick={playClickSound}
+            className="flex items-center gap-3 group"
+          >
+            <div className="w-9 h-9 rounded-xl border border-white/20 bg-white/5 group-hover:border-emerald-400/60 group-hover:bg-emerald-500/10 flex items-center justify-center font-mono font-bold text-sm text-white group-hover:text-emerald-400 transition-all shadow-lg">
               ⬡
             </div>
             <div className="flex flex-col">
-              <span className="font-syne font-black text-sm tracking-wider uppercase text-white">
+              <span className="font-syne font-black text-sm tracking-wider uppercase text-white group-hover:text-emerald-300 transition-colors">
                 SAHIL
               </span>
               <span className="text-[9px] font-mono tracking-widest text-zinc-400">
-                CYBER SECURITY
+                DEFENSIVE ARCHITECT
               </span>
             </div>
           </a>
 
-          <div className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-zinc-400">
-            <button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors cursor-pointer">
-              Specializations
+          {/* Navigation Links */}
+          <div className="hidden lg:flex items-center gap-7 text-xs font-mono uppercase tracking-widest text-zinc-400">
+            <button 
+              onMouseEnter={playHoverSound}
+              onClick={() => scrollToSection('about')} 
+              className="hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Capabilities
             </button>
-            <button onClick={() => scrollToSection('projects')} className="hover:text-white transition-colors cursor-pointer">
-              Projects ({projects.length})
+            <button 
+              onMouseEnter={playHoverSound}
+              onClick={() => scrollToSection('netscope')} 
+              className="hover:text-emerald-400 transition-colors cursor-pointer flex items-center gap-1.5"
+            >
+              <span>NetScope Tool</span>
+              <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">LIVE</span>
             </button>
-            <button onClick={() => scrollToSection('contact')} className="hover:text-white transition-colors cursor-pointer">
+            <button 
+              onMouseEnter={playHoverSound}
+              onClick={() => scrollToSection('projects')} 
+              className="hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Verified Labs ({projects.length})
+            </button>
+            <button 
+              onMouseEnter={playHoverSound}
+              onClick={() => scrollToSection('terminal')} 
+              className="hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Diagnostic REPL
+            </button>
+            <button 
+              onMouseEnter={playHoverSound}
+              onClick={() => scrollToSection('contact')} 
+              className="hover:text-emerald-400 transition-colors cursor-pointer"
+            >
               Contact
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Controls: Sound SFX & Matrix Rain & CTA */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            
+            {/* Audio SFX Toggle */}
             <button
-              onClick={() => setMatrixEnabled(!matrixEnabled)}
-              title={matrixEnabled ? 'Turn off Matrix Effect' : 'Turn on Matrix Effect'}
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-mono transition-all cursor-pointer"
+              onClick={toggleSound}
+              title={soundEnabled ? 'Disable SFX Click Audio' : 'Enable SFX Futuristic Audio'}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-mono transition-all cursor-pointer ${
+                soundEnabled 
+                  ? 'border-emerald-500/40 bg-emerald-500/20 text-emerald-300' 
+                  : 'border-white/10 bg-white/5 text-zinc-400 hover:text-white'
+              }`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${matrixEnabled ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-500'}`} />
-              <span>{matrixEnabled ? 'MATRIX: ON' : 'MATRIX: OFF'}</span>
+              {soundEnabled ? <Volume2 size={13} className="text-emerald-400" /> : <VolumeX size={13} />}
+              <span className="hidden sm:inline">{soundEnabled ? 'SFX: ON' : 'SFX: OFF'}</span>
             </button>
 
+            {/* Matrix Rain Toggle */}
             <button
+              onClick={() => {
+                playClickSound();
+                setMatrixEnabled(!matrixEnabled);
+              }}
+              title={matrixEnabled ? 'Turn off Matrix Effect' : 'Turn on Matrix Effect'}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono transition-all cursor-pointer text-zinc-300 hover:text-white"
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${matrixEnabled ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-600'}`} />
+              <span className="hidden sm:inline">{matrixEnabled ? 'MATRIX: ON' : 'MATRIX: OFF'}</span>
+            </button>
+
+            {/* Direct Contact Button */}
+            <button
+              onMouseEnter={playHoverSound}
               onClick={() => scrollToSection('contact')}
-              className="px-5 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-white text-black font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-md"
+              className="px-4 sm:px-5 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-white text-black font-bold hover:bg-emerald-400 transition-all cursor-pointer shadow-md hover:shadow-emerald-500/20"
             >
               Get In Touch
             </button>
@@ -261,148 +357,283 @@ export default function App() {
         </div>
       </nav>
 
-      {/* 2. Hero Section - Clean, High Impact & Completely Lag-Free */}
-      <section className="pt-36 pb-24 border-b border-white/10">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
-          
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            CCNA Certified &bull; Linux Systems &bull; Network Defense
-          </div>
+      {/* 2. Eye-Catching Hero Section with Real-Time 3D WebGL Canvas */}
+      <section className="relative pt-32 sm:pt-40 pb-20 border-b border-white/10 cyber-grid">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column: Hero Text & High-Impact Value Proposition */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              
+              {/* Status Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>CCNA Certified &bull; RHEL 9 Defense &bull; Active Clearance Ready</span>
+              </div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-syne font-black tracking-tight uppercase leading-[0.9] text-white">
-            SAHIL<br />
-            <span className="chrome-text">SECURITY</span>
-          </h1>
+              {/* Main Headline */}
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-syne font-black tracking-tight uppercase leading-[0.95] text-white">
+                DEFENDING NETWORKS.<br />
+                <span className="chrome-text">HARDENING SYSTEMS.</span>
+              </h1>
 
-          <p className="text-base sm:text-xl text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto">
-            Cyber Security Specialist with verified hands-on expertise in Cisco enterprise routing topologies (CCNA) and Red Hat Enterprise Linux (RHEL 9) kernel defense and diagnostic auditing.
-          </p>
+              {/* Sub-headline */}
+              <p className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed max-w-2xl">
+                Cyber Security Specialist &amp; Network Architect specializing in enterprise Cisco routing topologies (CCNA 802.1Q Dot1Q, NAT/PAT overload), Red Hat Enterprise Linux 9 kernel forensics, and zero-trust perimeter defense.
+              </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest bg-white text-black font-bold hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
-            >
-              View Hands-On Projects
-              <ArrowUpRight size={14} />
-            </button>
+              {/* CTA Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  onMouseEnter={playHoverSound}
+                  onClick={() => scrollToSection('projects')}
+                  className="px-6 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest bg-white text-black font-bold hover:bg-emerald-400 transition-all flex items-center gap-2 cursor-pointer shadow-xl hover:shadow-emerald-400/25"
+                >
+                  <span>Explore Verified Labs</span>
+                  <ArrowUpRight size={15} />
+                </button>
 
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest border border-white/20 hover:border-white bg-white/5 text-zinc-300 hover:text-white transition-all cursor-pointer"
-            >
-              Contact Sahil
-            </button>
-          </div>
+                <button
+                  onMouseEnter={playHoverSound}
+                  onClick={() => scrollToSection('netscope')}
+                  className="px-6 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest border border-emerald-500/40 hover:border-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <Network size={14} />
+                  <span>Launch Subnet Tool</span>
+                </button>
 
-          {/* Clean Stats */}
-          <div className="grid grid-cols-3 gap-6 pt-10 border-t border-white/10 max-w-xl mx-auto">
-            <div>
-              <div className="text-3xl font-syne font-bold text-white">CCNA</div>
-              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Cisco Routing</div>
+                <button
+                  onMouseEnter={playHoverSound}
+                  onClick={() => scrollToSection('terminal')}
+                  className="px-6 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest border border-white/20 hover:border-white bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <Terminal size={14} />
+                  <span>REPL Console</span>
+                </button>
+              </div>
+
+              {/* Live Verified Telemetry Ticker */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/10">
+                <div className="space-y-1">
+                  <div className="text-2xl font-syne font-bold text-white flex items-center gap-1.5">
+                    <span>0.0%</span>
+                    <ShieldCheck size={16} className="text-emerald-400" />
+                  </div>
+                  <div className="text-[11px] font-mono text-zinc-400 uppercase">Packet Loss</div>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-2xl font-syne font-bold text-emerald-300">
+                    CCNA
+                  </div>
+                  <div className="text-[11px] font-mono text-zinc-400 uppercase">Cisco Certified</div>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-2xl font-syne font-bold text-white">
+                    RHEL 9
+                  </div>
+                  <div className="text-[11px] font-mono text-zinc-400 uppercase">Kernel Defense</div>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-2xl font-syne font-bold text-cyan-300">
+                    3.05ms
+                  </div>
+                  <div className="text-[11px] font-mono text-zinc-400 uppercase">Round-Trip PTT</div>
+                </div>
+              </div>
+
             </div>
-            <div>
-              <div className="text-3xl font-syne font-bold text-white">RHEL 9</div>
-              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Linux Kernel</div>
-            </div>
-            <div>
-              <div className="text-3xl font-syne font-bold text-white">100%</div>
-              <div className="text-xs font-mono text-zinc-400 uppercase mt-1">Verified Labs</div>
-            </div>
-          </div>
 
+            {/* Right Column: 3D Interactive WebGL Chrome Canvas */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative w-full aspect-square max-w-[480px] mx-auto rounded-3xl border border-white/15 bg-gradient-to-b from-white/[0.04] to-transparent p-2 shadow-2xl backdrop-blur-sm overflow-hidden group">
+                
+                {/* 3D WebGL Canvas */}
+                <ChromeCanvas 
+                  currentShape={active3DShape}
+                  onShapeChange={(s) => {
+                    setActive3DShape(s);
+                    playClickSound();
+                  }}
+                  className="h-full rounded-2xl overflow-hidden" 
+                />
+
+                {/* Cyber HUD Floating Badges */}
+                <div className="absolute top-4 left-4 z-10 pointer-events-none">
+                  <div className="px-3 py-1 rounded-full border border-white/15 bg-black/70 backdrop-blur-md font-mono text-[10px] text-zinc-300 flex items-center gap-1.5 shadow-lg">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>DEFENSIVE CORE // ONLINE</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-4 right-4 z-10 pointer-events-none">
+                  <div className="px-3 py-1 rounded-full border border-white/15 bg-black/70 backdrop-blur-md font-mono text-[10px] text-zinc-400 shadow-lg">
+                    <span>THREE.JS // WEBGL 2.0</span>
+                  </div>
+                </div>
+
+                {/* Subtle User Hint */}
+                <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-10 pointer-events-none text-center">
+                  <span className="px-3 py-0.5 rounded-full bg-black/60 border border-white/10 text-[9px] font-mono text-zinc-400 uppercase tracking-widest backdrop-blur-md">
+                    Click &amp; Drag to Rotate 3D Sculpture
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
-      {/* 3. Core Specializations - Clean 3-Card Grid */}
-      <section id="about" className="py-20 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-12">
-            <span className="text-xs font-mono tracking-widest uppercase text-zinc-400 block mb-2">
-              CORE CAPABILITIES
+      {/* 3. Core Specializations Section */}
+      <section id="about" className="py-24 border-b border-white/10 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          
+          <div className="max-w-2xl mb-14">
+            <span className="text-xs font-mono tracking-widest uppercase text-emerald-400 block mb-2 font-bold">
+              // ARCHITECTURAL CAPABILITIES
             </span>
-            <h2 className="text-3xl sm:text-4xl font-syne font-black uppercase text-white">
-              WHAT I SPECIALIZE IN
+            <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
+              ENGINEERED FOR RESILIENCE
             </h2>
+            <p className="text-sm text-zinc-400 font-light mt-3">
+              Deep-level hands-on competencies developed across hardware routers, enterprise switches, and hardened Linux kernel distributions.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl border border-white/10 bg-[#0a0a0f] space-y-4">
-              <div className="w-10 h-10 rounded-lg border border-white/15 bg-white/5 flex items-center justify-center text-white">
-                <Network size={20} />
+            
+            {/* Card 1: Cisco CCNA */}
+            <div 
+              onMouseEnter={playHoverSound}
+              className="p-8 rounded-2xl border border-white/10 bg-[#08080d]/80 hover:border-emerald-500/40 hover:bg-[#0a0a12] transition-all duration-300 space-y-4 group relative overflow-hidden"
+            >
+              <div className="w-12 h-12 rounded-xl border border-white/15 bg-white/5 group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 flex items-center justify-center text-white group-hover:text-emerald-400 transition-colors">
+                <Network size={22} />
               </div>
-              <h3 className="text-lg font-syne font-bold uppercase text-white">Cisco Networking (CCNA)</h3>
-              <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                Inter-VLAN routing with 802.1Q Dot1Q sub-interfaces, Router-on-a-Stick, Serial WAN clock synchronization, and high-availability dynamic routing.
+              <h3 className="text-xl font-syne font-bold uppercase text-white">
+                Cisco Enterprise Routing (CCNA)
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+                Inter-VLAN routing with 802.1Q Dot1Q sub-interfaces, Router-on-a-Stick, Serial WAN clock rate synchronization, trunking uplinks, and verified 0% packet loss.
               </p>
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {['802.1Q Dot1Q', 'Serial WAN', 'Trunking', 'Packet Tracer'].map(t => (
-                  <span key={t} className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">{t}</span>
+              <div className="flex flex-wrap gap-1.5 pt-3">
+                {['802.1Q Dot1Q', 'Router-on-a-Stick', 'Serial Se2/0', 'Trunking', 'Packet Tracer'].map((t) => (
+                  <span key={t} className="px-2.5 py-1 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-white/10 bg-[#0a0a0f] space-y-4">
-              <div className="w-10 h-10 rounded-lg border border-white/15 bg-white/5 flex items-center justify-center text-white">
-                <Server size={20} />
+            {/* Card 2: Linux RHEL 9 */}
+            <div 
+              onMouseEnter={playHoverSound}
+              className="p-8 rounded-2xl border border-white/10 bg-[#08080d]/80 hover:border-cyan-500/40 hover:bg-[#0a0a12] transition-all duration-300 space-y-4 group relative overflow-hidden"
+            >
+              <div className="w-12 h-12 rounded-xl border border-white/15 bg-white/5 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/10 flex items-center justify-center text-white group-hover:text-cyan-400 transition-colors">
+                <Server size={22} />
               </div>
-              <h3 className="text-lg font-syne font-bold uppercase text-white">Linux Systems &amp; RHEL 9</h3>
-              <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                Kernel diagnostics, process telemetry with `top`, storage LVM volume inspection, systemd unit health (`systemctl`), and `journalctl` error log triage.
+              <h3 className="text-xl font-syne font-bold uppercase text-white">
+                RHEL 9 Kernel &amp; Systems Triage
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+                Real-time kernel telemetry with `top`, storage LVM logical volume verification, memory swap pressure audits (`free -h`), systemd unit inspection, and `journalctl` error log triage.
               </p>
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {['RHEL 9', 'top monitor', 'LVM df -h', 'systemctl', 'journalctl'].map(t => (
-                  <span key={t} className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">{t}</span>
+              <div className="flex flex-wrap gap-1.5 pt-3">
+                {['RHEL 9', 'top monitor', 'kauditd Audit', 'LVM df -h', 'systemctl', 'journalctl'].map((t) => (
+                  <span key={t} className="px-2.5 py-1 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-white/10 bg-[#0a0a0f] space-y-4">
-              <div className="w-10 h-10 rounded-lg border border-white/15 bg-white/5 flex items-center justify-center text-white">
-                <Lock size={20} />
+            {/* Card 3: Security & NAT */}
+            <div 
+              onMouseEnter={playHoverSound}
+              className="p-8 rounded-2xl border border-white/10 bg-[#08080d]/80 hover:border-emerald-500/40 hover:bg-[#0a0a12] transition-all duration-300 space-y-4 group relative overflow-hidden"
+            >
+              <div className="w-12 h-12 rounded-xl border border-white/15 bg-white/5 group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 flex items-center justify-center text-white group-hover:text-emerald-400 transition-colors">
+                <Lock size={22} />
               </div>
-              <h3 className="text-lg font-syne font-bold uppercase text-white">Security &amp; Edge NAT</h3>
-              <p className="text-sm text-zinc-400 font-light leading-relaxed">
-                Perimeter NAT/PAT overload gateway implementation, standard and extended access lists (ACLs), low-level socket inspection (`ss -tuln`), and zero-trust isolation.
+              <h3 className="text-xl font-syne font-bold uppercase text-white">
+                Perimeter Defense &amp; NAT/PAT
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+                Edge NAT/PAT overload gateway implementation, standard and extended access lists (ACLs), low-level socket inspection (`ss -tuln`), and zero-trust internal isolation.
               </p>
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {['NAT / PAT', 'Access Lists', 'ss -tuln', 'Socket Audit'].map(t => (
-                  <span key={t} className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">{t}</span>
+              <div className="flex flex-wrap gap-1.5 pt-3">
+                {['NAT / PAT Overload', 'Standard ACL', 'ss -tuln', 'Zero Rogue Ports', 'Wireshark'].map((t) => (
+                  <span key={t} className="px-2.5 py-1 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300">
+                    {t}
+                  </span>
                 ))}
               </div>
             </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* 4. Verified Hands-On Projects Section */}
-      <section id="projects" className="py-20 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* 4. Interactive NetScope PRO Subnet Calculator Section */}
+      <section id="netscope" className="py-24 border-b border-white/10 relative bg-black/40">
+        <div className="max-w-7xl mx-auto px-6 space-y-8">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono tracking-widest uppercase text-emerald-400 block mb-2 font-bold">
+              // INTERACTIVE CCNA NETWORK UTILITY
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
+              NETSCOPE PRO ENGINE
+            </h2>
+            <p className="text-sm text-zinc-400 font-light mt-3">
+              Test and interact with the live bitwise subnetting calculation engine developed by Sahil. Adjust the CIDR prefix slider or pick enterprise presets to verify real-time network breakdown.
+            </p>
+          </div>
+
+          <SubnetCalculator onSoundClick={playClickSound} />
+
+        </div>
+      </section>
+
+      {/* 5. Verified Hands-On Projects Section */}
+      <section id="projects" className="py-24 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <span className="text-xs font-mono tracking-widest uppercase text-zinc-400 block mb-1">
-                VERIFIED LAB EVIDENCE
+              <span className="text-xs font-mono tracking-widest uppercase text-emerald-400 block mb-2 font-bold">
+                // VERIFIED LAB EVIDENCE
               </span>
-              <h2 className="text-3xl sm:text-4xl font-syne font-black uppercase text-white">
+              <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
                 HANDS-ON PROJECTS
               </h2>
+              <p className="text-xs sm:text-sm text-zinc-400 font-light mt-2 max-w-lg">
+                High-resolution screenshots and verified CLI outputs from Cisco Packet Tracer topologies and Red Hat Enterprise Linux 9 installations.
+              </p>
             </div>
 
-            {/* Simple Clean Tabs */}
-            <div className="inline-flex items-center gap-1.5 p-1 rounded-lg border border-white/15 bg-[#0a0a0f]">
+            {/* Filter Tabs */}
+            <div className="inline-flex items-center gap-1.5 p-1 rounded-xl border border-white/15 bg-[#0a0a10]">
               {[
                 { id: 'all', label: `ALL (${projects.length})` },
-                { id: 'ccna', label: 'CCNA & TOOLS (3)' },
-                { id: 'linux', label: 'LINUX LABS (3)' },
-              ].map(tab => (
+                { id: 'ccna', label: 'CISCO CCNA (2)' },
+                { id: 'linux', label: 'RHEL 9 LABS (3)' },
+                { id: 'tools', label: 'NET TOOLS (1)' },
+              ].map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded transition-all cursor-pointer ${
+                  onClick={() => {
+                    playClickSound();
+                    setActiveTab(tab.id);
+                  }}
+                  className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
                     activeTab === tab.id
-                      ? 'bg-white text-black font-bold'
+                      ? 'bg-white text-black font-bold shadow-md'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -412,38 +643,42 @@ export default function App() {
             </div>
           </div>
 
-          {/* Clean Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Projects Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((p) => (
               <div
                 key={p.id}
-                className="rounded-2xl border border-white/10 bg-[#08080c] overflow-hidden flex flex-col justify-between hover:border-white/30 transition-all duration-300"
+                onMouseEnter={playHoverSound}
+                className="rounded-2xl border border-white/10 bg-[#08080d] overflow-hidden flex flex-col justify-between hover:border-emerald-500/40 hover:bg-[#0a0a12] transition-all duration-300 shadow-xl group"
               >
                 <div>
-                  {/* Clean Screenshot Header with Zoom Hint */}
+                  {/* Screenshot Thumbnail with Zoom Hint */}
                   <div 
-                    onClick={() => setSelectedProject(p)}
-                    className="relative h-56 bg-black border-b border-white/10 overflow-hidden cursor-pointer group"
+                    onClick={() => {
+                      playClickSound();
+                      setSelectedProject(p);
+                    }}
+                    className="relative h-56 bg-black border-b border-white/10 overflow-hidden cursor-pointer"
                   >
                     <img 
                       src={p.image} 
                       alt={p.title} 
-                      className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-102" 
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" 
                     />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="px-3.5 py-1.5 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xl">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="px-4 py-2 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xl">
                         <ZoomIn size={14} />
-                        View Full Screenshot
+                        Inspect Topology
                       </span>
                     </div>
-                    <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase bg-black/80 border border-white/20 text-white font-semibold">
+                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded text-[10px] font-mono uppercase bg-black/85 border border-white/20 text-white font-semibold">
                       {p.badge}
                     </span>
                   </div>
 
                   {/* Body Content */}
                   <div className="p-6 space-y-3">
-                    <h3 className="text-xl font-syne font-bold uppercase text-white leading-snug">
+                    <h3 className="text-lg font-syne font-bold uppercase text-white leading-snug group-hover:text-emerald-300 transition-colors">
                       {p.title}
                     </h3>
                     
@@ -451,37 +686,40 @@ export default function App() {
                       {p.subtitle}
                     </div>
 
-                    <p className="text-xs text-zinc-300 font-light leading-relaxed">
+                    <p className="text-xs text-zinc-300 font-light leading-relaxed line-clamp-3">
                       {p.desc}
                     </p>
 
-                    {/* Quick bullet points */}
-                    <div className="pt-2 space-y-1">
+                    {/* Bullet Highlights */}
+                    <div className="pt-2 space-y-1.5">
                       {p.highlights.slice(0, 2).map((hl, i) => (
                         <div key={i} className="text-[11px] text-zinc-400 flex items-start gap-1.5 leading-snug">
-                          <span className="text-emerald-400">▹</span>
-                          <span>{hl}</span>
+                          <span className="text-emerald-400 font-bold">▹</span>
+                          <span className="line-clamp-1">{hl}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Footer specs & CTA */}
+                {/* Footer metrics & CTA */}
                 <div className="p-6 pt-0 space-y-4">
                   <div className="flex flex-wrap gap-1.5">
-                    {p.tech.map((t, idx) => (
-                      <span key={idx} className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-400">
-                        {t}
+                    {p.metrics.map((m, idx) => (
+                      <span key={idx} className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                        {m}
                       </span>
                     ))}
                   </div>
 
                   <button
-                    onClick={() => setSelectedProject(p)}
-                    className="w-full py-2.5 rounded-lg border border-white/15 hover:border-white bg-white/5 text-xs font-mono uppercase tracking-wider text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    onClick={() => {
+                      playClickSound();
+                      setSelectedProject(p);
+                    }}
+                    className="w-full py-2.5 rounded-xl border border-white/15 hover:border-white bg-white/5 hover:bg-white/10 text-xs font-mono uppercase tracking-wider text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    Inspect Full Topology &amp; Specs
+                    Inspect Full Specs
                     <ChevronRight size={14} />
                   </button>
                 </div>
@@ -493,36 +731,63 @@ export default function App() {
         </div>
       </section>
 
-      {/* 5. Clean Modal Lightbox for Project Screenshots */}
+      {/* 6. Interactive Diagnostic Terminal (REPL) Section */}
+      <section id="terminal" className="py-24 border-b border-white/10 bg-black/50">
+        <div className="max-w-5xl mx-auto px-6 space-y-8">
+          
+          <div className="text-center space-y-2 max-w-xl mx-auto">
+            <span className="text-xs font-mono tracking-widest uppercase text-emerald-400 font-bold">
+              // LIVE COMMAND INTERACTION
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
+              DIAGNOSTIC TERMINAL
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 font-light">
+              Execute live terminal commands like `help`, `topologies`, `ccna`, `linux`, or `ping 8.8.8.8` to inspect verified technical logs.
+            </p>
+          </div>
+
+          <CyberTerminal onSoundClick={playClickSound} />
+
+        </div>
+      </section>
+
+      {/* 7. Modal Lightbox for Project Screenshots & Command Verification */}
       {selectedProject && (
         <div 
           onClick={() => setSelectedProject(null)}
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-4xl rounded-2xl border border-white/20 bg-[#0d0d12] overflow-hidden max-h-[90vh] flex flex-col shadow-2xl"
+            className="w-full max-w-4xl rounded-2xl border border-white/20 bg-[#0d0d14] overflow-hidden max-h-[90vh] flex flex-col shadow-2xl"
           >
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-white/15 flex items-center justify-between bg-black/50">
-              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
-                {selectedProject.badge} // VERIFIED LAB EVIDENCE
+            <div className="px-6 py-4 border-b border-white/15 flex items-center justify-between bg-black/60">
+              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                {selectedProject.badge} // LAB EVIDENCE ARCHIVE
               </span>
               <button 
-                onClick={() => setSelectedProject(null)}
+                onClick={() => {
+                  playClickSound();
+                  setSelectedProject(null);
+                }}
                 className="p-1.5 rounded-lg border border-white/15 hover:border-white text-zinc-400 hover:text-white cursor-pointer"
               >
                 <X size={16} />
               </button>
             </div>
 
-            {/* Modal Scrollable Body */}
+            {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-6">
+              
+              {/* Screenshot Frame */}
               <div className="rounded-xl overflow-hidden border border-white/15 bg-black">
                 <img 
                   src={selectedProject.image} 
                   alt={selectedProject.title} 
-                  className="w-full h-auto object-contain max-h-[460px] mx-auto"
+                  className="w-full h-auto object-contain max-h-[480px] mx-auto"
                 />
               </div>
 
@@ -538,21 +803,25 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl border border-white/10 bg-white/[0.02] space-y-2">
-                <div className="text-xs font-mono uppercase text-white font-bold mb-1">
+              {/* Verified Commands & Configurations */}
+              <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] space-y-3">
+                <div className="text-xs font-mono uppercase text-white font-bold tracking-wider">
                   VERIFIED CONFIGURATIONS &amp; COMMAND VALIDATION:
                 </div>
-                {selectedProject.highlights.map((h, i) => (
-                  <div key={i} className="text-xs font-mono text-zinc-300 flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>{h}</span>
-                  </div>
-                ))}
+                <div className="space-y-2">
+                  {selectedProject.highlights.map((h, i) => (
+                    <div key={i} className="text-xs font-mono text-zinc-300 flex items-start gap-2.5">
+                      <span className="text-emerald-400 font-bold">✓</span>
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              {/* Tech stack badges */}
+              <div className="flex flex-wrap gap-2">
                 {selectedProject.tech.map((t, idx) => (
-                  <span key={idx} className="px-2.5 py-1 rounded text-xs font-mono bg-white/10 border border-white/20 text-white">
+                  <span key={idx} className="px-3 py-1 rounded-lg text-xs font-mono bg-white/10 border border-white/20 text-white">
                     {t}
                   </span>
                 ))}
@@ -560,61 +829,64 @@ export default function App() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3 border-t border-white/15 flex items-center justify-between bg-black/50">
-              <span className="text-[10px] font-mono text-zinc-400">
-                VERIFIED BY SAHIL
+            <div className="px-6 py-4 border-t border-white/15 flex items-center justify-between bg-black/60">
+              <span className="text-[11px] font-mono text-zinc-400">
+                VERIFIED ARCHITECTURE BY SAHIL
               </span>
               <button 
-                onClick={() => setSelectedProject(null)}
-                className="px-4 py-1.5 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider cursor-pointer"
+                onClick={() => {
+                  playClickSound();
+                  setSelectedProject(null);
+                }}
+                className="px-5 py-2 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-zinc-200"
               >
-                Close
+                Close Lightbox
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 6. Clean, Simple Contact Section */}
-      <section id="contact" className="py-20">
+      {/* 8. Direct Contact & Dispatch Section */}
+      <section id="contact" className="py-24 relative">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="rounded-2xl border border-white/10 bg-[#08080c] p-8 sm:p-12 space-y-8">
+          <div className="rounded-3xl border border-white/15 bg-[#08080e]/90 p-8 sm:p-12 space-y-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
             
-            <div className="text-center space-y-2">
-              <span className="text-xs font-mono tracking-widest uppercase text-zinc-400">
-                GET IN TOUCH
+            <div className="text-center space-y-3">
+              <span className="text-xs font-mono tracking-widest uppercase text-emerald-400 font-bold">
+                // TRANSMISSION INTERFACE
               </span>
-              <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white">
+              <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
                 LET'S CONNECT
               </h2>
               <p className="text-sm text-zinc-400 font-light max-w-md mx-auto">
-                Available for Cyber Security roles, Cisco Network Engineering, and Linux Systems Defense.
+                Open for Cyber Security Analyst roles, Cisco Network Engineering, and Linux Systems Hardening.
               </p>
             </div>
 
-            {/* Direct Contact Options: Email & Phone / WhatsApp */}
+            {/* Contact Channels Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
               
-              {/* Email Card */}
-              <div className="p-4 rounded-xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
+              {/* Email Transmission */}
+              <div className="p-5 rounded-2xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-400">
-                  <Mail size={14} className="text-white" />
+                  <Mail size={15} className="text-white" />
                   <span>Email Transmission</span>
                 </div>
-                <div className="font-mono text-sm text-white select-all break-all">
+                <div className="font-mono text-sm text-white select-all break-all font-semibold">
                   sahilkumar202232@gmail.com
                 </div>
                 <div className="flex items-center gap-2 pt-1">
                   <button
                     onClick={copyEmail}
-                    className="flex-1 py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    className="flex-1 py-2 px-3 rounded-xl border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
                     <span>{copiedEmail ? 'COPIED' : 'COPY EMAIL'}</span>
                   </button>
                   <a
                     href="mailto:sahilkumar202232@gmail.com"
-                    className="py-1.5 px-3 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
+                    className="py-2 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
                     title="Send Email"
                   >
                     <ExternalLink size={13} />
@@ -623,15 +895,15 @@ export default function App() {
               </div>
 
               {/* Phone & WhatsApp Card */}
-              <div className="p-4 rounded-xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
+              <div className="p-5 rounded-2xl border border-white/15 bg-black/60 flex flex-col justify-between space-y-3">
                 <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-zinc-400">
                   <div className="flex items-center gap-2">
-                    <Phone size={14} className="text-emerald-400" />
+                    <Phone size={15} className="text-emerald-400" />
                     <span>Phone &bull; WhatsApp</span>
                   </div>
                   <span className="text-[10px] text-emerald-400 font-semibold">ACTIVE</span>
                 </div>
-                <div className="font-mono text-sm text-white select-all">
+                <div className="font-mono text-sm text-white select-all font-semibold">
                   +91 7042131215
                 </div>
                 <div className="flex items-center gap-2 pt-1">
@@ -639,21 +911,23 @@ export default function App() {
                     href="https://wa.me/917042131215"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-1.5 px-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-mono text-emerald-400 flex items-center justify-center gap-1.5 transition-colors cursor-pointer font-medium"
+                    onClick={playClickSound}
+                    className="flex-1 py-2 px-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25 text-xs font-mono text-emerald-400 flex items-center justify-center gap-1.5 transition-colors cursor-pointer font-bold"
                   >
                     <WhatsAppIcon size={14} />
                     <span>WHATSAPP</span>
                   </a>
                   <a
                     href="tel:+917042131215"
-                    className="py-1.5 px-3 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                    onClick={playClickSound}
+                    className="py-2 px-3 rounded-xl border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center gap-1 transition-colors cursor-pointer"
                     title="Call directly"
                   >
                     <Phone size={13} />
                   </a>
                   <button
                     onClick={copyPhone}
-                    className="py-1.5 px-2.5 rounded-lg border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
+                    className="py-2 px-3 rounded-xl border border-white/15 bg-white/5 hover:border-white text-xs font-mono text-white flex items-center justify-center transition-colors cursor-pointer"
                     title="Copy number"
                   >
                     {copiedPhone ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
@@ -663,57 +937,48 @@ export default function App() {
 
             </div>
 
-            {/* Social & Direct Comms Bar */}
-            <div className="flex items-center justify-center gap-3 pt-2">
+            {/* Social Channels Bar */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <a
                 href="https://www.linkedin.com/in/sahil-0b0172445"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={playClickSound}
                 className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
-                title="LinkedIn Profile"
               >
                 <LinkedinIcon size={16} />
-                <span>LinkedIn</span>
+                <span>LinkedIn Profile</span>
               </a>
 
               <a
                 href="https://github.com/Sahil9599"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={playClickSound}
                 className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
-                title="GitHub Profile"
               >
                 <GithubIcon size={16} />
-                <span>GitHub</span>
+                <span>GitHub Repository</span>
               </a>
 
               <a
                 href="https://wa.me/917042131215"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-500/50 flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer"
-                title="Chat on WhatsApp"
+                onClick={playClickSound}
+                className="px-4 py-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-500/60 flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer"
               >
                 <WhatsAppIcon size={16} />
-                <span>WhatsApp</span>
-              </a>
-
-              <a
-                href="tel:+917042131215"
-                className="px-4 py-2 rounded-xl border border-white/15 hover:border-white bg-white/5 flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white transition-all cursor-pointer"
-                title="Call 7042131215"
-              >
-                <Phone size={16} />
-                <span>Call</span>
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
 
-            {/* Simple Form */}
+            {/* Direct Form */}
             {formSubmitted ? (
-              <div className="text-center py-6 space-y-2 border-t border-white/10 pt-6">
-                <Check size={28} className="text-emerald-400 mx-auto" />
-                <h4 className="font-syne font-bold uppercase text-white">Message Dispatched</h4>
-                <p className="text-xs font-mono text-zinc-400">Thank you, Sahil will respond to your email shortly.</p>
+              <div className="text-center py-8 space-y-2 border-t border-white/10 pt-8">
+                <Check size={32} className="text-emerald-400 mx-auto" />
+                <h4 className="font-syne font-bold uppercase text-white text-lg">Message Dispatched Successfully</h4>
+                <p className="text-xs font-mono text-zinc-400">Thank you! Sahil will acknowledge and respond to your email shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} className="space-y-4 pt-4 border-t border-white/10">
@@ -722,28 +987,29 @@ export default function App() {
                     required
                     type="text"
                     placeholder="Your Name"
-                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/50 text-white font-mono text-sm focus:border-white focus:outline-none placeholder:text-zinc-600"
+                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 transition-colors"
                   />
                   <input
                     required
                     type="email"
                     placeholder="Your Email"
-                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/50 text-white font-mono text-sm focus:border-white focus:outline-none placeholder:text-zinc-600"
+                    className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 transition-colors"
                   />
                 </div>
 
                 <textarea
                   required
-                  rows={3}
-                  placeholder="Your message or project scope..."
-                  className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/50 text-white font-mono text-sm focus:border-white focus:outline-none placeholder:text-zinc-600 resize-none"
+                  rows={4}
+                  placeholder="Your message, project scope, or opportunity details..."
+                  className="w-full px-4 py-3 rounded-xl border border-white/15 bg-black/60 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none placeholder:text-zinc-600 resize-none transition-colors"
                 />
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-bold hover:bg-zinc-200 transition-all cursor-pointer shadow-lg"
+                  onMouseEnter={playHoverSound}
+                  className="w-full py-4 rounded-xl bg-white text-black font-mono text-xs uppercase tracking-widest font-bold hover:bg-emerald-400 transition-all cursor-pointer shadow-xl hover:shadow-emerald-500/20"
                 >
-                  Send Message
+                  Send Transmission
                 </button>
               </form>
             )}
@@ -752,17 +1018,24 @@ export default function App() {
         </div>
       </section>
 
-      {/* 7. Clean Minimal Footer */}
-      <footer className="py-8 border-t border-white/10 text-center text-xs font-mono text-zinc-500">
-        <div>SAHIL // CYBER SECURITY &bull; CCNA &bull; LINUX ARCHITECT</div>
-        <div className="text-[10px] text-zinc-600 mt-1">ALL RIGHTS RESERVED &bull; 2026</div>
+      {/* 9. Minimal Footer */}
+      <footer className="py-10 border-t border-white/10 text-center text-xs font-mono text-zinc-500 space-y-2">
+        <div className="text-zinc-400">
+          SAHIL // CYBER SECURITY &bull; CISCO CCNA &bull; ENTERPRISE LINUX ARCHITECT
+        </div>
+        <div className="text-[10px] text-zinc-600">
+          ALL TELEMETRY VERIFIED &bull; 2026 &bull; OBSIDIAN BLACK &amp; LIQUID CHROME EDITION
+        </div>
       </footer>
 
-      {/* Floating Back To Top */}
+      {/* Floating Back To Top Button */}
       {showScrollTop && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 z-40 p-3 rounded-full border border-white/20 bg-black/90 hover:border-white text-white transition-all shadow-xl hover:scale-105 cursor-pointer"
+          onClick={() => {
+            playClickSound();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full border border-white/20 bg-black/90 hover:border-emerald-400 text-white hover:text-emerald-400 transition-all shadow-2xl hover:scale-105 cursor-pointer backdrop-blur-md"
           title="Scroll to top"
         >
           <ArrowUp size={16} />
