@@ -11,7 +11,7 @@ export default function CyberTerminal({ onSoundClick }) {
   ]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [cmdHistory, setCmdHistory] = useState([]);
-  const terminalEndRef = useRef(null);
+  const terminalContainerRef = useRef(null);
 
   const quickCommands = [
     'help',
@@ -27,7 +27,8 @@ export default function CyberTerminal({ onSoundClick }) {
   ];
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (history.length <= 1 || !terminalContainerRef.current) return;
+    terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
   }, [history]);
 
   const executeCommand = (cmdStr) => {
@@ -198,7 +199,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
       </div>
 
       {/* Terminal Content Screen */}
-      <div className="p-5 font-mono text-xs sm:text-sm min-h-[300px] max-h-[460px] overflow-y-auto space-y-3 scroll-smooth">
+      <div ref={terminalContainerRef} className="p-5 font-mono text-xs sm:text-sm min-h-[300px] max-h-[460px] overflow-y-auto space-y-3 scroll-smooth">
         {history.map((item, idx) => (
           <div key={idx} className="leading-relaxed">
             {item.type === 'command' ? (
@@ -210,7 +211,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
             )}
           </div>
         ))}
-        <div ref={terminalEndRef} />
+
       </div>
 
       {/* Quick Action Chips */}
