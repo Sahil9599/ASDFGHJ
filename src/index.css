@@ -10,11 +10,13 @@ html {
     --font-space: 'Space Grotesk', sans-serif;
     --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    --font-dot: 'DotGothic16', 'JetBrains Mono', monospace;
+    --nothing-red: #d71921;
   }
 
   body {
-    background-color: #050508;
-    color: #e2e8f0;
+    background-color: #0a0a0a;
+    color: #e5e5e5;
     font-family: var(--font-sans);
     overflow-x: hidden;
   }
@@ -33,107 +35,49 @@ html {
   font-family: var(--font-mono);
 }
 
-/* Chrome metallic effects */
+.font-dot {
+  font-family: var(--font-dot);
+  letter-spacing: 0.04em;
+}
+
+/* Liquid Titanium Metallic Text */
 .chrome-text {
-  background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 25%, #71717a 50%, #ffffff 80%, #a1a1aa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 30%, #737373 55%, #ffffff 85%, #a3a3a3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   padding-right: 0.04em;
 }
 
-.chrome-text-green {
-  background: linear-gradient(135deg, #ffffff 0%, #34d399 35%, #059669 70%, #a7f3d0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
+/* Nothing OS Dot-Matrix Background */
+.nothing-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-.chrome-text-cyan {
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 35%, #0284c7 70%, #bae6fd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-/* Cyber grid background */
-.cyber-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* Cyber glow helpers */
-.glow-emerald {
-  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.25);
-}
-
-.glow-cyan {
-  box-shadow: 0 0 35px -5px rgba(14, 165, 233, 0.25);
-}
-
-.glow-white {
-  box-shadow: 0 0 40px -10px rgba(255, 255, 255, 0.2);
-}
-
-/* ========== NEW: Animated Gradient Border ========== */
-@keyframes gradient-border-rotate {
-  0% { --gradient-angle: 0deg; }
-  100% { --gradient-angle: 360deg; }
-}
-
-@property --gradient-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.animated-border {
+/* Nothing OS Card Surface & Hover */
+.nothing-card {
   position: relative;
-  border: none !important;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, background-color 0.25s ease;
 }
 
-.animated-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--gradient-angle),
-    #10b981,
-    #06b6d4,
-    #8b5cf6,
-    #10b981
-  );
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: gradient-border-rotate 4s linear infinite;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+.nothing-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.35) !important;
 }
 
-.animated-border:hover::before {
-  opacity: 1;
-}
-
-/* ========== NEW: 3D Tilt Card Effect ========== */
+/* 3D Tilt Card Effect (subtle hardware feel) */
 .tilt-card {
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform 0.3s ease;
+  transition: transform 0.28s ease, border-color 0.25s ease;
 }
 
 .tilt-card:hover {
-  transform: perspective(1000px) rotateX(2deg) rotateY(-3deg) scale(1.02);
+  transform: perspective(1000px) rotateX(1.5deg) rotateY(-2deg) translateY(-2px);
 }
 
-/* ========== NEW: Typewriter Cursor ========== */
+/* Typewriter Cursor in Nothing Red */
 @keyframes blink-cursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -142,23 +86,22 @@ html {
 .typewriter-cursor {
   display: inline-block;
   width: 3px;
-  height: 1em;
-  background: #10b981;
-  margin-left: 4px;
-  animation: blink-cursor 0.8s ease-in-out infinite;
+  height: 0.92em;
+  background: #d71921;
+  margin-left: 6px;
+  animation: blink-cursor 0.75s steps(2, start) infinite;
   vertical-align: text-bottom;
 }
 
-/* ========== NEW: Preloader ========== */
+/* Nothing OS Preloader */
 @keyframes preloader-fade {
   0% { opacity: 1; }
   100% { opacity: 0; pointer-events: none; }
 }
 
-@keyframes hex-spin {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.15); }
-  100% { transform: rotate(360deg) scale(1); }
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
 }
 
 .preloader {
@@ -169,73 +112,55 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #050508;
-  gap: 20px;
+  background: #0a0a0a;
+  gap: 18px;
 }
 
 .preloader.done {
-  animation: preloader-fade 0.6s ease forwards;
+  animation: preloader-fade 0.45s ease forwards;
 }
 
-.preloader-icon {
-  animation: hex-spin 2s ease-in-out infinite;
+.nothing-led {
+  animation: led-pulse 1.1s steps(2, start) infinite;
 }
 
-/* ========== NEW: Staggered card animation ========== */
-@keyframes card-enter {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ========== NEW: Mobile menu animations ========== */
-@keyframes slide-in-right {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes slide-out-right {
+/* Kinetic Marquee Strip */
+@keyframes marquee-scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(100%); }
+  100% { transform: translateX(-50%); }
 }
 
-/* ========== NEW: Glow pulse on hover ========== */
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-  50% { box-shadow: 0 0 20px 2px rgba(16, 185, 129, 0.2); }
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
 }
 
-.hover-glow:hover {
-  animation: glow-pulse 1.5s ease-in-out infinite;
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
-/* ========== NEW: Floating animation ========== */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* Nav link underline slide animation in Nothing Red */
+.nav-link-underline {
+  position: relative;
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1.5px;
+  background: #d71921;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ========== NEW: Shimmer loading effect ========== */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.shimmer-text {
-  background: linear-gradient(90deg, #fff 0%, #10b981 25%, #fff 50%, #06b6d4 75%, #fff 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
+.nav-link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* Custom scrollbar */
@@ -243,14 +168,14 @@ html {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050508;
+  background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #2a2a2a;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #d71921;
 }
 
 /* Hide scrollbar for horizontal scroll containers */
@@ -262,17 +187,7 @@ html {
   scrollbar-width: none;
 }
 
-/* Pulse animation for HUD elements */
-@keyframes cyber-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.03); }
-}
-
-.animate-cyber-pulse {
-  animation: cyber-pulse 4s ease-in-out infinite;
-}
-
-/* ========== NEW: Lenis smooth scroll overrides ========== */
+/* Lenis smooth scroll overrides */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -289,30 +204,7 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-/* ========== Nav link underline slide animation ========== */
-.nav-link-underline {
-  position: relative;
-}
-
-.nav-link-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 100%;
-  height: 1.5px;
-  background: linear-gradient(90deg, #10b981, #06b6d4);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.nav-link-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* ========== Print stylesheet for Technical Dossier ========== */
+/* Print stylesheet for Technical Dossier */
 @media print {
   body {
     background: #ffffff !important;

@@ -181,7 +181,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
   };
 
   return (
-    <div className="rounded-2xl border border-white/15 bg-[#07070c]/95 backdrop-blur-xl overflow-hidden shadow-2xl space-y-0">
+    <div className="rounded-2xl border border-dashed border-white/20 bg-[#111111]/95 backdrop-blur-xl overflow-hidden shadow-2xl space-y-0">
       {/* Terminal Title Bar */}
       <div className="px-5 py-3 border-b border-white/10 bg-black/60 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -192,8 +192,8 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
             sahil@security-node:~ (bash / diagnostic-repl)
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="flex items-center gap-2 text-[10px] font-mono text-white">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#d71921] nothing-led" />
           ONLINE
         </div>
       </div>
@@ -203,11 +203,11 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
         {history.map((item, idx) => (
           <div key={idx} className="leading-relaxed">
             {item.type === 'command' ? (
-              <span className="text-cyan-400 font-semibold">{item.text}</span>
+              <span className="text-white font-semibold">{item.text}</span>
             ) : item.type === 'system' ? (
               <span className="text-zinc-400 whitespace-pre-wrap">{item.text}</span>
             ) : (
-              <span className="text-emerald-300 whitespace-pre-wrap font-mono">{item.text}</span>
+              <span className="text-zinc-200 whitespace-pre-wrap font-mono">{item.text}</span>
             )}
           </div>
         ))}
@@ -223,7 +223,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
           <button
             key={cmd}
             onClick={() => executeCommand(cmd)}
-            className="px-2.5 py-1 rounded bg-white/5 hover:bg-emerald-500/20 border border-white/10 hover:border-emerald-500/40 text-[11px] font-mono text-zinc-300 hover:text-emerald-300 transition-colors cursor-pointer whitespace-nowrap"
+            className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-[#d71921]/20 border border-white/10 hover:border-[#d71921]/60 text-[11px] font-mono text-zinc-300 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
           >
             {cmd}
           </button>
@@ -232,10 +232,10 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
 
       {/* Interactive Input Prompt */}
       <div className="px-5 py-3 border-t border-white/10 bg-black/70 flex items-center gap-2">
-        <span className="text-emerald-400 font-mono text-xs sm:text-sm font-bold flex items-center gap-1 whitespace-nowrap">
+        <span className="text-[#ff4d54] font-mono text-xs sm:text-sm font-bold flex items-center gap-1 whitespace-nowrap">
           <span>sahil@node</span>
           <span className="text-zinc-500">:</span>
-          <span className="text-cyan-400">~</span>
+          <span className="text-white">~</span>
           <span className="text-zinc-400">$</span>
         </span>
         <input

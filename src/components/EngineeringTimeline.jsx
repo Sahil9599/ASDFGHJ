@@ -19,7 +19,7 @@ const MILESTONES = [
     icon: Lock,
     summary:
       'Configured perimeter Network & Port Address Translation mapping RFC 1918 corporate LANs (10.0.0.0/24) to WAN gateways using standard ACLs and verified bidirectional public server reachability.',
-    tags: ['NAT / PAT Overload', 'Standard ACL', 'RFC 1918', 'Fa0/0 ↔ Fa1/0'],
+    tags: ['NAT / PAT Overload', 'Standard ACL', 'RFC 1918', 'Fa0/0 <-> Fa1/0'],
   },
   {
     phase: 'PHASE 03 // CUSTOM ENGINEERING TOOLING',
@@ -51,27 +51,28 @@ function TimelineNode({ item, index }) {
       ref={ref}
       initial={{ opacity: 0, x: -24 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -24 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="relative pl-10 sm:pl-14 pb-10 last:pb-0"
     >
-      {/* Glowing Timeline Node */}
+      {/* Hardware LED Timeline Node */}
       <div
-        className={`absolute left-0 top-1 w-7 h-7 sm:w-9 sm:h-9 rounded-xl border flex items-center justify-center transition-all duration-700 ${
+        className={`absolute left-0 top-1 w-7 h-7 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center transition-all duration-500 ${
           isInView
-            ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.45)]'
-            : 'border-white/15 bg-[#08080d] text-zinc-500'
+            ? 'border-[#d71921] bg-[#d71921]/20 text-white shadow-[0_0_16px_rgba(215,25,33,0.45)]'
+            : 'border-white/15 bg-[#111111] text-zinc-500'
         }`}
       >
         <Icon size={15} />
       </div>
 
       {/* Card */}
-      <div className="animated-border p-6 rounded-2xl border border-white/10 bg-[#08080d]/85 hover:bg-[#0b0b13] transition-colors space-y-3">
+      <div className="nothing-card p-6 rounded-2xl border border-dashed border-white/20 bg-[#111111]/95 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-[10px] font-mono tracking-widest uppercase text-emerald-400 font-bold">
+          <span className="text-[11px] font-dot tracking-widest uppercase text-[#ff4d54]">
             {item.phase}
           </span>
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 flex items-center gap-1">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-white/5 border border-white/15 text-white flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d71921]" />
             <ShieldCheck size={11} />
             {item.badge}
           </span>
@@ -89,7 +90,7 @@ function TimelineNode({ item, index }) {
           {item.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2.5 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-zinc-300"
+              className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-black/50 border border-white/15 text-zinc-300"
             >
               {tag}
             </span>
@@ -103,10 +104,10 @@ function TimelineNode({ item, index }) {
 export default function EngineeringTimeline() {
   return (
     <div className="relative max-w-4xl mx-auto">
-      {/* Vertical Spine */}
+      {/* Dashed Vertical Spine */}
       <div
         aria-hidden="true"
-        className="absolute left-[13px] sm:left-[17px] top-3 bottom-6 w-[2px] bg-gradient-to-b from-emerald-500/60 via-cyan-500/40 to-transparent"
+        className="absolute left-[13px] sm:left-[17px] top-3 bottom-6 w-[1px] border-l border-dashed border-white/25"
       />
       <div>
         {MILESTONES.map((item, idx) => (

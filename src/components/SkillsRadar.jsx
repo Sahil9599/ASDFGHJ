@@ -8,7 +8,7 @@ const SKILLS = [
     label: 'Cisco Routing',
     shortLabel: 'CISCO CCNA',
     level: 92,
-    color: '#10b981',
+    color: '#d71921',
     detail: '802.1Q Dot1Q, Router-on-a-Stick, Serial Se2/0 WAN, Inter-VLAN & Catalyst Trunking',
   },
   {
@@ -16,7 +16,7 @@ const SKILLS = [
     label: 'Subnetting & VLSM',
     shortLabel: 'CIDR / VLSM',
     level: 95,
-    color: '#34d399',
+    color: '#ffffff',
     detail: 'IPv4/IPv6 CIDR math, Bitwise mask computation, RFC 1878/4291 & NetScope PRO',
   },
   {
@@ -24,7 +24,7 @@ const SKILLS = [
     label: 'NAT/PAT & ACLs',
     shortLabel: 'NAT / ACL',
     level: 90,
-    color: '#06b6d4',
+    color: '#d71921',
     detail: 'Dynamic PAT Overload gateways, Standard ACL perimeter rules, RFC 1918 masking',
   },
   {
@@ -32,7 +32,7 @@ const SKILLS = [
     label: 'RHEL 9 Kernel',
     shortLabel: 'RHEL 9',
     level: 88,
-    color: '#38bdf8',
+    color: '#e5e5e5',
     detail: 'top telemetry, kauditd security thread audit, LVM partitioning (df -h) & free -h',
   },
   {
@@ -40,7 +40,7 @@ const SKILLS = [
     label: 'Socket & Net Audit',
     shortLabel: 'SS / IPROUTE2',
     level: 87,
-    color: '#22d3ee',
+    color: '#d71921',
     detail: 'ss -tuln listening socket verification, iproute2, dual-stack DNS & ICMP RTT checks',
   },
   {
@@ -48,7 +48,7 @@ const SKILLS = [
     label: 'Systemd & Forensics',
     shortLabel: 'JOURNALCTL',
     level: 85,
-    color: '#a7f3d0',
+    color: '#a3a3a3',
     detail: 'systemctl unit health verification, journalctl -p err triage & PAM keyring audits',
   },
 ];
@@ -78,13 +78,14 @@ export default function SkillsRadar({ onSoundHover }) {
   return (
     <div ref={ref} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
       {/* Left: Interactive SVG Radar Chart */}
-      <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 sm:p-8 rounded-3xl border border-white/10 bg-[#08080e]/90 relative overflow-hidden animated-border">
+      <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl border border-dashed border-white/20 bg-[#111111]/95 relative overflow-hidden nothing-card">
         <div className="w-full flex items-center justify-between mb-3 text-[10px] font-mono text-zinc-400">
-          <span className="flex items-center gap-1.5 text-emerald-400 uppercase tracking-wider">
-            <Cpu size={12} />
+          <span className="flex items-center gap-1.5 text-white uppercase tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d71921] nothing-led" />
+            <Cpu size={12} className="text-[#d71921]" />
             DEFENSE CAPABILITY MATRIX
           </span>
-          <span>6-AXIS TELEMETRY</span>
+          <span className="font-dot">6-AXIS TELEMETRY</span>
         </div>
 
         <svg
@@ -95,8 +96,8 @@ export default function SkillsRadar({ onSoundHover }) {
         >
           <defs>
             <radialGradient id="radarFill" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.12" />
+              <stop offset="0%" stopColor="#d71921" stopOpacity="0.38" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
             </radialGradient>
           </defs>
 
@@ -111,7 +112,8 @@ export default function SkillsRadar({ onSoundHover }) {
                 key={idx}
                 points={pts}
                 fill="none"
-                stroke="rgba(255,255,255,0.08)"
+                stroke="rgba(255,255,255,0.12)"
+                strokeDasharray="3 3"
                 strokeWidth="1"
               />
             );
@@ -129,7 +131,7 @@ export default function SkillsRadar({ onSoundHover }) {
                   y1={center}
                   x2={outer.x}
                   y2={outer.y}
-                  stroke={isSelected ? 'rgba(16, 185, 129, 0.5)' : 'rgba(255,255,255,0.08)'}
+                  stroke={isSelected ? 'rgba(215, 25, 33, 0.7)' : 'rgba(255,255,255,0.1)'}
                   strokeWidth={isSelected ? '1.5' : '1'}
                 />
                 <text
@@ -139,7 +141,7 @@ export default function SkillsRadar({ onSoundHover }) {
                   dominantBaseline="middle"
                   onClick={() => setActiveSkill(skill)}
                   className={`font-mono text-[9px] uppercase cursor-pointer transition-colors ${
-                    isSelected ? 'fill-emerald-400 font-bold' : 'fill-zinc-400 hover:fill-white'
+                    isSelected ? 'fill-[#ff4d54] font-bold' : 'fill-zinc-400 hover:fill-white'
                   }`}
                 >
                   {skill.shortLabel}
@@ -152,7 +154,7 @@ export default function SkillsRadar({ onSoundHover }) {
           <motion.polygon
             points={polygonPath}
             fill="url(#radarFill)"
-            stroke="#10b981"
+            stroke="#d71921"
             strokeWidth="2"
             initial={{ opacity: 0, scale: 0.4 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.4 }}
@@ -178,9 +180,9 @@ export default function SkillsRadar({ onSoundHover }) {
                   cx={pt.x}
                   cy={pt.y}
                   r={isSelected ? 7 : 4.5}
-                  fill={isSelected ? '#34d399' : '#050508'}
-                  stroke="#10b981"
-                  strokeWidth="2"
+                  fill={isSelected ? '#d71921' : '#0c0c0c'}
+                  stroke="#ffffff"
+                  strokeWidth="1.5"
                   className="transition-all duration-200"
                 />
               </g>
@@ -189,19 +191,22 @@ export default function SkillsRadar({ onSoundHover }) {
         </svg>
 
         {/* Active Axis Detail Pill */}
-        <div className="w-full mt-4 p-3.5 rounded-xl border border-emerald-500/25 bg-emerald-500/5 text-left space-y-1">
+        <div className="w-full mt-4 p-3.5 rounded-xl border border-dashed border-white/20 bg-black/60 text-left space-y-1">
           <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-emerald-400 font-bold uppercase">{activeSkill.label}</span>
-            <span className="text-white font-bold">{activeSkill.level}%</span>
+            <span className="text-white font-bold uppercase flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d71921]" />
+              {activeSkill.label}
+            </span>
+            <span className="font-dot text-[#ff4d54] font-bold">{activeSkill.level}%</span>
           </div>
-          <p className="text-[11px] text-zinc-300 font-light leading-relaxed">
+          <p className="text-[11px] text-zinc-400 font-light leading-relaxed">
             {activeSkill.detail}
           </p>
         </div>
       </div>
 
       {/* Right: Animated Proficiency Bars */}
-      <div className="lg:col-span-7 space-y-4">
+      <div className="lg:col-span-7 space-y-3.5">
         {SKILLS.map((skill, idx) => {
           const isSelected = activeSkill.id === skill.id;
           return (
@@ -211,35 +216,35 @@ export default function SkillsRadar({ onSoundHover }) {
                 setActiveSkill(skill);
                 if (onSoundHover) onSoundHover();
               }}
-              className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer ${
+              className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer ${
                 isSelected
-                  ? 'border-emerald-500/45 bg-[#0b1014]'
-                  : 'border-white/10 bg-[#08080d]/70 hover:border-white/25'
+                  ? 'border-[#d71921]/70 bg-[#151515]'
+                  : 'border-dashed border-white/15 bg-[#101010]/90 hover:border-white/35'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <ShieldCheck
                     size={15}
-                    className={isSelected ? 'text-emerald-400' : 'text-zinc-500'}
+                    className={isSelected ? 'text-[#d71921]' : 'text-zinc-500'}
                   />
                   <span className="font-syne font-bold text-sm uppercase text-white">
                     {skill.label}
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-emerald-400">
+                <span className="font-dot text-sm font-bold text-white">
                   {skill.level}%
                 </span>
               </div>
 
-              <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+              <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-                  transition={{ duration: 1, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.9, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
                   className="h-full rounded-full"
                   style={{
-                    background: `linear-gradient(90deg, ${skill.color}, #38bdf8)`,
+                    background: isSelected ? '#d71921' : '#ffffff',
                   }}
                 />
               </div>

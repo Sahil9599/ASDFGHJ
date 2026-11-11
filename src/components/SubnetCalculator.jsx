@@ -3,13 +3,7 @@ import {
   Network, 
   Cpu, 
   Check, 
-  Copy, 
-  Layers, 
-  Shield, 
-  Server, 
-  ArrowRight,
-  Terminal,
-  Share2
+  Copy
 } from 'lucide-react';
 
 export default function SubnetCalculator({ onSoundClick }) {
@@ -129,22 +123,23 @@ Verified via Sahil's NetScope PRO Engine.`;
   };
 
   return (
-    <div className="rounded-2xl border border-white/15 bg-[#09090e]/90 backdrop-blur-xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
-      {/* Decorative top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-cyan-400 to-white/40" />
+    <div className="rounded-2xl border border-dashed border-white/20 bg-[#111111]/95 backdrop-blur-xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      {/* Subtle Nothing OS top accent */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d71921] via-white/60 to-transparent" />
       
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-dashed border-white/15">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-white">
             <Network size={20} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-syne font-bold text-lg text-white uppercase tracking-wider">
+              <h3 className="font-dot text-lg text-white uppercase tracking-wider">
                 NetScope PRO
               </h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#d71921]/20 text-[#ff4d54] border border-[#d71921]/40 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#d71921] nothing-led" />
                 LIVE ENGINE
               </span>
             </div>
@@ -156,12 +151,12 @@ Verified via Sahil's NetScope PRO Engine.`;
 
         <button
           onClick={handleCopySummary}
-          className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-lg border border-white/20 hover:border-white bg-white/5 hover:bg-white/10 text-xs font-mono text-white transition-all cursor-pointer self-start sm:self-auto"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white hover:text-black text-xs font-mono text-white transition-all cursor-pointer self-start sm:self-auto"
         >
           {copied ? (
             <>
-              <Check size={14} className="text-emerald-400" />
-              <span className="text-emerald-400 font-bold">COPIED SPECS</span>
+              <Check size={14} className="text-[#d71921]" />
+              <span className="font-bold">COPIED SPECS</span>
             </>
           ) : (
             <>
@@ -186,13 +181,16 @@ Verified via Sahil's NetScope PRO Engine.`;
                 setCidr(preset.cidr);
                 if (onSoundClick) onSoundClick();
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all border cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all border cursor-pointer ${
                 ip === preset.ip && cidr === preset.cidr
-                  ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 font-bold'
-                  : 'border-white/10 bg-white/5 hover:border-white/30 text-zinc-300 hover:text-white'
+                  ? 'border-[#d71921] bg-[#d71921] text-white font-bold'
+                  : 'border-white/15 bg-black/40 hover:border-white/40 text-zinc-300 hover:text-white'
               }`}
             >
-              {preset.label} <span className="text-zinc-500 font-normal">({preset.ip}/{preset.cidr})</span>
+              {preset.label}{' '}
+              <span className={ip === preset.ip && cidr === preset.cidr ? 'text-white/80 font-normal' : 'text-zinc-500 font-normal'}>
+                ({preset.ip}/{preset.cidr})
+              </span>
             </button>
           ))}
         </div>
@@ -210,7 +208,7 @@ Verified via Sahil's NetScope PRO Engine.`;
               type="text"
               value={ip}
               onChange={(e) => setIp(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-white/20 bg-black/70 text-white font-mono text-sm focus:border-emerald-400 focus:outline-none transition-colors"
+              className="w-full px-4 py-3 rounded-xl border border-white/20 bg-black/70 text-white font-mono text-sm focus:border-[#d71921] focus:outline-none transition-colors"
               placeholder="192.168.1.1"
             />
             <span className="absolute right-3 top-3.5 text-xs font-mono text-zinc-500">
@@ -222,7 +220,7 @@ Verified via Sahil's NetScope PRO Engine.`;
         <div className="lg:col-span-7 space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-xs font-mono uppercase text-zinc-300 tracking-wider">
-              CIDR Prefix Length: <span className="text-emerald-400 font-bold">/{cidr}</span>
+              CIDR Prefix Length: <span className="text-[#ff4d54] font-dot font-bold">/{cidr}</span>
             </label>
             <span className="text-xs font-mono text-zinc-400">
               {parsed ? `${parsed.usableHosts.toLocaleString()} Usable Hosts` : ''}
@@ -236,9 +234,9 @@ Verified via Sahil's NetScope PRO Engine.`;
               max="30"
               value={cidr}
               onChange={(e) => setCidr(Number(e.target.value))}
-              className="flex-1 accent-emerald-400 cursor-pointer h-2 bg-zinc-800 rounded-lg"
+              className="flex-1 accent-[#d71921] cursor-pointer h-2 bg-zinc-800 rounded-lg"
             />
-            <span className="w-12 text-center py-2 px-2.5 rounded-lg border border-white/20 bg-black/60 font-mono text-sm font-bold text-white">
+            <span className="w-12 text-center py-2 px-2.5 rounded-xl border border-white/20 bg-black/60 font-dot text-sm font-bold text-white">
               /{cidr}
             </span>
           </div>
@@ -247,15 +245,15 @@ Verified via Sahil's NetScope PRO Engine.`;
 
       {/* Bitwise Binary Visualizer */}
       {parsed && (
-        <div className="p-4 rounded-xl border border-white/10 bg-black/50 space-y-2.5">
-          <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400">
+        <div className="p-4 rounded-xl border border-dashed border-white/15 bg-black/50 space-y-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-zinc-400">
             <span className="uppercase tracking-wider flex items-center gap-1.5 text-zinc-300">
-              <Cpu size={13} className="text-emerald-400" />
+              <Cpu size={13} className="text-[#d71921]" />
               Bitwise 32-Bit Binary Mask Representation:
             </span>
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1 text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
+              <span className="flex items-center gap-1 text-white">
+                <span className="w-2 h-2 rounded-full bg-[#d71921] inline-block" />
                 Network ({cidr})
               </span>
               <span className="flex items-center gap-1 text-zinc-500">
@@ -265,15 +263,15 @@ Verified via Sahil's NetScope PRO Engine.`;
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 sm:gap-4 font-mono text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 font-mono text-xs">
             {[0, 1, 2, 3].map((octetIdx) => (
-              <div key={octetIdx} className="p-2 rounded-lg bg-white/[0.02] border border-white/5 text-center">
+              <div key={octetIdx} className="p-2 rounded-lg bg-white/[0.02] border border-white/10 text-center">
                 <div className="flex justify-center gap-0.5 sm:gap-1">
                   {parsed.binaryMask.slice(octetIdx * 8, (octetIdx + 1) * 8).map((bit, bitIdx) => (
                     <span
                       key={bitIdx}
                       className={`text-[10px] sm:text-xs font-bold px-0.5 ${
-                        bit === 1 ? 'text-emerald-400' : 'text-zinc-600'
+                        bit === 1 ? 'text-[#ff4d54]' : 'text-zinc-600'
                       }`}
                     >
                       {bit}
@@ -292,51 +290,51 @@ Verified via Sahil's NetScope PRO Engine.`;
       {/* Computed Architecture Results Grid */}
       {parsed ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 pt-1">
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Subnet Mask</span>
             <span className="font-mono text-sm sm:text-base font-bold text-white block select-all">
               {parsed.mask}
             </span>
-            <span className="text-[10px] font-mono text-emerald-400">Prefix /{parsed.prefix}</span>
+            <span className="text-[10px] font-mono text-[#ff4d54]">Prefix /{parsed.prefix}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Network ID (Subnet)</span>
-            <span className="font-mono text-sm sm:text-base font-bold text-emerald-300 block select-all">
+            <span className="font-mono text-sm sm:text-base font-bold text-white block select-all">
               {parsed.network}
             </span>
             <span className="text-[10px] font-mono text-zinc-500">Base routing address</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Broadcast Address</span>
-            <span className="font-mono text-sm sm:text-base font-bold text-amber-300 block select-all">
+            <span className="font-mono text-sm sm:text-base font-bold text-zinc-200 block select-all">
               {parsed.broadcast}
             </span>
             <span className="text-[10px] font-mono text-zinc-500">All host bits set</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Wildcard Mask</span>
-            <span className="font-mono text-sm sm:text-base font-bold text-cyan-300 block select-all">
+            <span className="font-mono text-sm sm:text-base font-bold text-zinc-200 block select-all">
               {parsed.wildcard}
             </span>
             <span className="text-[10px] font-mono text-zinc-500">Cisco IOS ACL format</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 col-span-2 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 col-span-2 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Usable Host Range</span>
             <span className="font-mono text-xs sm:text-sm font-bold text-white block select-all">
               {parsed.firstUsable} &mdash; {parsed.lastUsable}
             </span>
-            <span className="text-[10px] font-mono text-emerald-400">
+            <span className="text-[10px] font-mono text-[#ff4d54]">
               Valid addresses for interfaces and hosts
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Usable Hosts</span>
-            <span className="font-mono text-sm sm:text-base font-bold text-emerald-400 block">
+            <span className="font-dot text-sm sm:text-base font-bold text-white block">
               {parsed.usableHosts.toLocaleString()}
             </span>
             <span className="text-[10px] font-mono text-zinc-500">
@@ -344,14 +342,14 @@ Verified via Sahil's NetScope PRO Engine.`;
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-black/40 space-y-1">
+          <div className="p-3.5 rounded-xl border border-dashed border-white/15 bg-black/40 space-y-1">
             <span className="text-[10px] font-mono uppercase text-zinc-400 block">Classification</span>
             <div className="flex items-center gap-1.5">
               <span className="font-mono text-xs font-bold text-white">
                 {parsed.ipClass}
               </span>
-              <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${
-                parsed.isPrivate ? 'bg-emerald-500/20 text-emerald-300' : 'bg-cyan-500/20 text-cyan-300'
+              <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full ${
+                parsed.isPrivate ? 'bg-[#d71921]/20 text-[#ff4d54]' : 'bg-white/10 text-white'
               }`}>
                 {parsed.isPrivate ? 'RFC 1918' : 'Public'}
               </span>
@@ -362,7 +360,7 @@ Verified via Sahil's NetScope PRO Engine.`;
           </div>
         </div>
       ) : (
-        <div className="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-center font-mono text-xs text-red-400">
+        <div className="p-6 rounded-xl border border-[#d71921]/40 bg-[#d71921]/10 text-center font-mono text-xs text-[#ff4d54]">
           Invalid IPv4 Address format. Enter standard dotted-decimal (e.g. 192.168.1.1).
         </div>
       )}

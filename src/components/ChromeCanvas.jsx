@@ -47,8 +47,8 @@ export default function ChromeCanvas({ className = '', currentShape = 'knot', on
 
     // Softbox light planes for chrome specular reflections
     const brightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const coolMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-    const emeraldMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
+    const coolMat = new THREE.MeshBasicMaterial({ color: 0xd4d4d8 });
+    const emeraldMat = new THREE.MeshBasicMaterial({ color: 0xd71921 });
 
     const light1 = new THREE.Mesh(new THREE.PlaneGeometry(16, 40), brightMat);
     light1.position.set(-12, 6, 8);
@@ -77,7 +77,7 @@ export default function ChromeCanvas({ className = '', currentShape = 'knot', on
     dirLight.position.set(6, 8, 6);
     scene.add(dirLight);
 
-    const cyanLight = new THREE.PointLight(0x00f0ff, 1.8, 15);
+    const cyanLight = new THREE.PointLight(0xd71921, 1.8, 15);
     cyanLight.position.set(-4, -3, 2);
     scene.add(cyanLight);
 
