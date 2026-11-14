@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal, Shield, Check, Copy, Maximize2, Minimize2, CornerDownLeft } from 'lucide-react';
+import { CornerDownLeft } from 'lucide-react';
 
-export default function CyberTerminal({ onSoundClick }) {
+export default function CyberTerminal({ onSoundClick, onUnlockEasterEgg }) {
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState([
     {
       type: 'system',
-      text: 'SAHIL DEFENSE KERNEL v4.19.0-hardened-rhel9 (x86_64)\nType "help" to view diagnostic commands or click quick action chips below.',
+      text: 'SAHIL DEFENSE KERNEL v4.19.0-hardened-rhel9 (x86_64)\nType "help" for commands, or run "scan" / "hack" to test perimeter security.',
     },
   ]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -15,6 +15,8 @@ export default function CyberTerminal({ onSoundClick }) {
 
   const quickCommands = [
     'help',
+    'scan',
+    'hack',
     'ccna',
     'linux',
     'topologies',
@@ -51,6 +53,8 @@ export default function CyberTerminal({ onSoundClick }) {
     if (lowerCmd === 'help') {
       output = `AVAILABLE SYSTEM DIAGNOSTIC COMMANDS:
   help        - Display this command index
+  scan / nmap - Run automated port & vulnerability scan on host perimeter
+  hack        - Launch ethical exploit sequence to audit secret vault [EASTER EGG]
   ccna        - Cisco 802.1Q Dot1Q trunking, NAT/PAT & router configurations
   linux       - RHEL 9 kernel diagnostics, top telemetry, LVM & journalctl
   topologies  - Verified physical/logical network topologies breakdown
@@ -60,6 +64,38 @@ export default function CyberTerminal({ onSoundClick }) {
   skills      - Full technical arsenal across networking, Linux & security
   contact     - Transmission channels (Email, Phone, WhatsApp, LinkedIn)
   clear       - Clear active terminal buffer`;
+    } else if (lowerCmd === 'scan' || lowerCmd.startsWith('nmap')) {
+      output = `Starting Nmap 7.94 ( https://nmap.org ) at 2026-11-14 23:05 IST
+Nmap scan report for sahil.defense.local (10.0.0.1)
+Host is up (0.00041s latency).
+Not shown: 996 closed tcp ports (reset)
+PORT     STATE SERVICE            VERSION
+22/tcp   open  ssh                OpenSSH 8.7 (RHEL 9.4 protocol 2.0)
+80/tcp   open  http               Nginx 1.24 (Reverse Proxy / TLS redirect)
+443/tcp  open  ssl/https          TLSv1.3 AES-256-GCM
+1337/tcp open  encrypted-vault?   SAHIL-CLASSIFIED-CTF-FLAG
+
+[!] Hint: Run "hack" or "connect 1337" to audit port 1337 and uncover the easter egg flag.`;
+    } else if (
+      lowerCmd === 'hack' || 
+      lowerCmd === 'exploit' || 
+      lowerCmd.includes('1337') || 
+      lowerCmd === 'cat flag.txt' || 
+      lowerCmd === 'flag' ||
+      lowerCmd === 'sudo'
+    ) {
+      output = `[*] INITIATING ETHICAL EXPLOIT AUDIT SEQUENCE...
+[+] Connecting to TCP port 1337 (encrypted-vault)...
+[+] Sending crafted NOP sled + shellcode (CVE-AUDIT-2026)...
+[+] Perimeter firewall bypassed!
+[+] Decrypting classified payload...
+[+] ACCESS GRANTED! Unlocking Classified Dossier Modal... 🏴‍☠️`;
+
+      if (onUnlockEasterEgg) {
+        setTimeout(() => {
+          onUnlockEasterEgg();
+        }, 600);
+      }
     } else if (lowerCmd === 'ccna') {
       output = `[+] CISCO PACKET TRACER ENTERPRISE LAB CONFIGS:
   * ROUTER-ON-A-STICK (802.1Q Dot1Q):
@@ -117,7 +153,6 @@ export default function CyberTerminal({ onSoundClick }) {
 64 bytes from ${target}: icmp_seq=1 ttl=117 time=3.12 ms
 64 bytes from ${target}: icmp_seq=2 ttl=117 time=2.98 ms
 64 bytes from ${target}: icmp_seq=3 ttl=117 time=3.05 ms
-
 --- ${target} ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
 rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
@@ -146,7 +181,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
   LinkedIn: https://www.linkedin.com/in/sahil-0b0172445
   GitHub:   https://github.com/Sahil9599`;
     } else {
-      output = `command not found: "${rawCmd}". Type "help" to view valid commands.`;
+      output = `command not found: "${rawCmd}". Type "help" to view valid commands or "scan" to inspect network.`;
     }
 
     setHistory((prev) => [
@@ -211,7 +246,6 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
             )}
           </div>
         ))}
-
       </div>
 
       {/* Quick Action Chips */}
@@ -223,7 +257,11 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
           <button
             key={cmd}
             onClick={() => executeCommand(cmd)}
-            className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-[#d71921]/20 border border-white/10 hover:border-[#d71921]/60 text-[11px] font-mono text-zinc-300 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
+            className={`px-2.5 py-1 rounded-full border text-[11px] font-mono transition-colors cursor-pointer whitespace-nowrap ${
+              cmd === 'hack' || cmd === 'scan'
+                ? 'bg-[#d71921]/15 border-[#d71921]/50 text-[#ff4d54] hover:bg-[#d71921]/30 hover:text-white'
+                : 'bg-white/5 hover:bg-white/10 border-white/10 text-zinc-300 hover:text-white'
+            }`}
           >
             {cmd}
           </button>
@@ -243,7 +281,7 @@ rtt min/avg/max/mdev = 2.98/3.05/3.12/0.057 ms
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type 'help' or command here and press Enter..."
+          placeholder="Type 'help', 'scan', or 'hack' and press Enter..."
           className="flex-1 bg-transparent border-none text-white font-mono text-xs sm:text-sm focus:outline-none placeholder:text-zinc-600"
           autoComplete="off"
           spellCheck="false"

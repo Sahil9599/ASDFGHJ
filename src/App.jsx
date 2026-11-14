@@ -8,6 +8,9 @@ import RibbonCursor from './components/RibbonCursor';
 import SkillsRadar from './components/SkillsRadar';
 import EngineeringTimeline from './components/EngineeringTimeline';
 import DossierModal from './components/DossierModal';
+import NetworkTopology from './components/NetworkTopology';
+import HackModeModal from './components/HackModeModal';
+import CommandPalette from './components/CommandPalette';
 import { sound } from './utils/sound';
 import { 
   ArrowUpRight, 
@@ -254,6 +257,8 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [preloading, setPreloading] = useState(true);
   const [dossierOpen, setDossierOpen] = useState(false);
+  const [hackModalOpen, setHackModalOpen] = useState(false);
+  const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 180, damping: 28, restDelta: 0.001 });
@@ -265,10 +270,15 @@ export default function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCmdPaletteOpen((prev) => !prev);
+      } else if (e.key === 'Escape') {
         setSelectedProject(null);
         setMobileMenuOpen(false);
         setDossierOpen(false);
+        setHackModalOpen(false);
+        setCmdPaletteOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -441,7 +451,8 @@ export default function App() {
   const navLinks = [
     { id: 'about', label: 'Capabilities' },
     { id: 'skills', label: 'Skills' },
-    { id: 'netscope', label: 'NetScope', badge: 'LIVE' },
+    { id: 'topology', label: 'Topology', badge: 'LIVE' },
+    { id: 'netscope', label: 'NetScope' },
     { id: 'projects', label: `Labs (${projects.length})` },
     { id: 'timeline', label: 'Timeline' },
     { id: 'terminal', label: 'REPL' },
@@ -531,8 +542,22 @@ export default function App() {
             ))}
           </div>
 
-          {/* Controls: Sound SFX & Glyph Grid & CTA & Mobile Menu */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Controls: Command Bus & Sound SFX & Glyph Grid & CTA & Mobile Menu */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            
+            {/* Quick Command Bus Pill (Cmd+K) */}
+            <button
+              onClick={() => {
+                playClickSound();
+                setCmdPaletteOpen(true);
+              }}
+              title="Open Command Bus (Ctrl + K)"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-dashed border-white/20 bg-white/5 hover:border-[#d71921] hover:bg-white/10 text-xs font-mono transition-all cursor-pointer text-zinc-300 hover:text-white"
+            >
+              <Terminal size={12} className="text-[#d71921]" />
+              <span className="hidden sm:inline">BUS</span>
+              <span className="text-[10px] px-1 py-0.2 rounded border border-white/10 bg-black/40 text-zinc-400">⌘K</span>
+            </button>
             
             {/* Audio SFX Toggle */}
             <button
@@ -973,6 +998,29 @@ export default function App() {
         </div>
       </section>
 
+      {/* ═══════════ 3.8 NETWORK TOPOLOGY LAB ═══════════ */}
+      <section id="topology" className="py-24 border-b border-dashed border-white/15 relative bg-[#070707]/90">
+        <div className="max-w-7xl mx-auto px-6 space-y-8">
+          <FadeIn>
+            <div className="max-w-2xl">
+              <span className="text-xs font-dot tracking-widest uppercase text-[#ff4d54] block mb-2">
+                // LIVE SYSTEM ARCHITECTURE (02.5)
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-syne font-black uppercase text-white leading-tight">
+                NETWORK TOPOLOGY LAB
+              </h2>
+              <p className="text-sm text-zinc-400 font-light mt-3">
+                Interactive physical & logical enterprise network diagram. Inspect Cisco 2811 sub-interfaces, perimeter ACLs, simulate real-time ICMP packet delivery, or test stateful intrusion interception.
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.15}>
+            <NetworkTopology onSoundClick={playClickSound} />
+          </FadeIn>
+        </div>
+      </section>
+
       {/* ═══════════ 4. NETSCOPE SUBNET CALCULATOR ═══════════ */}
       <section id="netscope" className="py-24 border-b border-dashed border-white/15 relative bg-[#070707]/80">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
@@ -1174,7 +1222,13 @@ export default function App() {
           </FadeIn>
 
           <FadeIn delay={0.15}>
-            <CyberTerminal onSoundClick={playClickSound} />
+            <CyberTerminal 
+              onSoundClick={playClickSound} 
+              onUnlockEasterEgg={() => {
+                playClickSound();
+                setHackModalOpen(true);
+              }}
+            />
           </FadeIn>
 
         </div>
@@ -1480,6 +1534,37 @@ export default function App() {
           onSoundClick={playClickSound}
         />
       </div>
+
+      {/* Classified CTF Easter Egg Hack Modal */}
+      <HackModeModal
+        isOpen={hackModalOpen}
+        onClose={() => setHackModalOpen(false)}
+        onSoundClick={playClickSound}
+      />
+
+      {/* Cmd+K Interactive Command Bus Palette */}
+      <CommandPalette
+        isOpen={cmdPaletteOpen}
+        onClose={() => setCmdPaletteOpen(false)}
+        onNavigate={(id) => {
+          if (id === 'hero') {
+            if (window.__lenis) {
+              window.__lenis.scrollTo(0);
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          } else {
+            scrollToSection(id);
+          }
+        }}
+        onOpenDossier={() => setDossierOpen(true)}
+        onUnlockEasterEgg={() => setHackModalOpen(true)}
+        onToggleSound={toggleSound}
+        soundEnabled={soundEnabled}
+        onToggleGlyphs={() => setGlyphEnabled(!glyphEnabled)}
+        glyphEnabled={glyphEnabled}
+        onSoundClick={playClickSound}
+      />
 
     </div>
   );
