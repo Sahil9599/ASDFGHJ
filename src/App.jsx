@@ -4,7 +4,7 @@ import DotMatrixBg from './components/DotMatrixBg';
 import ChromeCanvas from './components/ChromeCanvas';
 import SubnetCalculator from './components/SubnetCalculator';
 import CyberTerminal from './components/CyberTerminal';
-import CursorGlow from './components/CursorGlow';
+import RibbonCursor from './components/RibbonCursor';
 import SkillsRadar from './components/SkillsRadar';
 import EngineeringTimeline from './components/EngineeringTimeline';
 import DossierModal from './components/DossierModal';
@@ -476,8 +476,8 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Subtle Cursor Glow (Desktop Fine Pointer) */}
-      <CursorGlow />
+      {/* Flowing Ribbon Trail Cursor (Desktop Fine Pointer) */}
+      <RibbonCursor />
 
       {/* Animated Nothing OS Dot-Matrix Glyph Background */}
       {glyphEnabled && <DotMatrixBg />}
